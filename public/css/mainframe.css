@@ -1,0 +1,62 @@
+*{
+    margin: 0px 0px;
+    padding: 0px 0px;
+    font-family: 'Kanit', sans-serif;
+    transition: 0.5s;
+    box-sizing:border-box;
+}
+
+body{
+    text-align: center;
+    display: grid;
+    grid-template-rows: 1fr 8fr 1fr;
+}
+
+
+
+header{
+    background-color: #DDFFFF;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+
+.landingh1{
+    padding-top: 5%;
+}
+
+
+a{
+    text-decoration-line:none;
+    color: #58C0BC;
+}
+
+a:visited{
+    text-decoration-line:none;
+}
+
+main{
+    background-color: #F5FFFF;
+    height: 100vh;
+}
+
+#searchoption{
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+#resultsection{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 2%;
+    row-gap: 4%;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding-bottom: 15%;
+}
+
+footer{
+    background-color: #B5F6B5;
+    width: 100%;
+    padding-top: 1%;
+}

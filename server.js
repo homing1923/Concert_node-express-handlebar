@@ -1,9 +1,24 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const expressHDB = require("express-handlebars");
+const bodyParser = require("body-parser");
 const HTTP_PORT = process.env.PORT || 3000;
+
+
+
+
 app.use(express.static('public'));
 app.use(express.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.engine('.hbs', expressHDB.engine({
+   extname: '.hbs'
+}));
+app.set('view engine', '.hbs');
+
+
+
+
 // call this function after the http server starts listening for requests
 function onServerStart() {
     console.log("Express http server listening on: " + HTTP_PORT);
@@ -22,7 +37,7 @@ function onServerStart() {
 // });
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "/views/index.html"));
+    res.render("index", {layout:"mainframe"})
 });
 
 app.get("/demoapi/all", (req,res) =>{
