@@ -12,7 +12,12 @@ body{
     grid-template-rows: 1fr 15fr 1fr;
 }
 
-
+hero{
+    display: grid;
+    align-items: center;
+    padding: 30% 0;
+    text-align: center;
+}
 
 header{
     background-color: #DDFFFF;

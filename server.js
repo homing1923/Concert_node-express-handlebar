@@ -40,6 +40,17 @@ app.get("/", (req, res) => {
     res.render("index", {layout:"mainframe"})
 });
 
+app.get("/class", (req, res) => {
+    res.render("timetable", {layout:"mainframe"})
+});
+
+
+
+
+
+
+
+
 app.get("/demoapi/all", (req,res) =>{
     res.json({
         "Country":"abc",
