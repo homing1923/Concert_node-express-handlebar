@@ -2,5 +2,11 @@
     <a href="./"><h1>Home</h1></a>
     <a href="./class"><h1>Classes</h1></a>
     <a href="./"></a>
+    {{#if User}}
+    <a href="./class"><h1>Cart</h1></a>
+    <a href="./login"><h1>Logout</h1></a>
+    {{else}}
+    <a href=""></a>
     <a href="./login"><h1>login</h1></a>
+    {{/if}}
 </header>

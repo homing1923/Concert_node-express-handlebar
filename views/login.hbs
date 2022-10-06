@@ -1,0 +1,17 @@
+{{#if User}}
+    <h1>
+        Maybe you can do some modification of your account here.
+    </h1>
+
+{{else}}
+<form class="loginform" id="loginform" action="/login" method="post">
+<h1>LOGIN OR SIGNUP</h1>
+<input class="inputs" id="loginname" type="text" placeholder="Enter your emailaddress" required>
+<input class="inputs" id="loginpassword" type="password" placeholder="Enter your password" required>
+<div class="loginbtndiv">
+    <button id="loginbtn" class="loginbtn" onclick="submit">Login</button>
+    <button id="signupbtn" class="signupbtn" onclick="location.href = './signup'">SignUp</button>
+</div>
+
+</form>
+{{/if}}

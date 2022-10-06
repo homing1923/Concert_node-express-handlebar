@@ -4,12 +4,15 @@
     font-family: 'Kanit', sans-serif;
     transition: 0.5s;
     box-sizing:border-box;
+    /* width:calc([min size]px + ([max size] — [min size]) * ((100vw — [min vw width]px) / ([max vw width] — [min vw width]))) */
 }
 
 body{
     text-align: center;
     display: grid;
+    background-color: #F5FFFF;
     grid-template-rows: 1fr 15fr 1fr;
+
 }
 
 hero{
@@ -24,12 +27,40 @@ header{
     padding-top: 1%;
     padding-bottom: 1%;
     display: grid;
-    grid-template-columns: 1fr 1fr 8fr 1fr;
+    grid-template-columns: 1fr 1fr 8fr 1fr 1fr;
     align-items: center;
     text-align: center;
     
 }
 
+#loginform{
+    border: 10px solid #ffffff;
+    margin: 15% 30%;
+    padding: 30px 30px;
+    text-align: center;
+}
+
+.inputs{
+    display: block;
+    padding: 5px 5px;
+    margin: 5px 5px;
+    width: calc(100% - 10px);
+}
+
+.loginbtndiv{
+    padding-top:5%;
+    width: calc(100% - 10px);
+}
+
+.loginbtn{
+    padding: 20px 20px;
+    width: 30%;
+}
+
+.signupbtn{
+    padding: 20px 20px;
+    width: 30%;
+}
 
 .landingh1{
     padding-top: 5%;
