@@ -1,40 +1,36 @@
 <h1>
-    Add lesson
+    Add lesson and see all lessons
 </h1>
 
 {{#if err}}
     {{err}}
 {{/if}}
 
-<form action="/createclass" method="post" class="lessonrow">
-    <div class="lessonimgcontainer">
-        <img src="{{this.img}}" class="lessonimg">
-    </div>
+<form action="/createclass" method="post" class="createrow">
     <div class="leassontextcontainer">
-        <p class="lessonheader">{{this.name}}</p>
-        <p class="lessonduration">{{this.duration}}</p>
-        {{#if this.registered}}
-        <button class="lessonregisteredbtn" type="submit">Book now</button>
-        <p class="lessonregisteredbar">This item is already in your cart</p>
-        {{else}}
-        <button class="lessontoregisterbtn" type="submit">Book now</button>
-        {{/if}}
+        <label for="nameinput">Class Name: </label>
+        <input name="nameinput" type="text" placeholder="Class name here" required="true">
+        <label for="instructorinput">instructor Name: </label>
+        <input name="instructor" type="text" placeholder="instructor name here" required="true">
+        <label for="duration">Duration: </label>
+        <input name="duration" type="number" placeholder="30" required="true">
+        <label for="fee">Fee: </label>
+        <input name="fee" type="number" placeholder="fee link here" required="true">
+        <label for="imglink">Image link: </label>
+        <input name="img" type="String" placeholder="img link here" required="true">
     </div>
+    <button class="lessonregisteredbtn" type="submit">Submit to server</button>
 </form>
+
 {{#each data}}
-    <form action="/createclass" method="post" class="lessonrow">
+    <form action="/deleteclass/{{this._id}}" method="post" class="lessonrow">
         <div class="lessonimgcontainer">
             <img src="{{this.img}}" class="lessonimg">
         </div>
         <div class="leassontextcontainer">
             <p class="lessonheader">{{this.name}}</p>
             <p class="lessonduration">{{this.duration}}</p>
-            {{#if this.registered}}
-            <button class="lessonregisteredbtn" type="submit">Book now</button>
-            <p class="lessonregisteredbar">This item is already in your cart</p>
-            {{else}}
-            <button class="lessontoregisterbtn" type="submit">Book now</button>
-            {{/if}}
+            <button class="lessondeletebtn" type="submit">Delete this lesson</button>
         </div>
     </form>
 {{/each}}
