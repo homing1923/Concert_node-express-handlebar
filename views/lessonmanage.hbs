@@ -1,0 +1,41 @@
+<h1>
+    Add lesson
+</h1>
+
+{{#if err}}
+    {{err}}
+{{/if}}
+
+<form action="/createclass" method="post" class="lessonrow">
+    <div class="lessonimgcontainer">
+        <img src="{{this.img}}" class="lessonimg">
+    </div>
+    <div class="leassontextcontainer">
+        <p class="lessonheader">{{this.name}}</p>
+        <p class="lessonduration">{{this.duration}}</p>
+        {{#if this.registered}}
+        <button class="lessonregisteredbtn" type="submit">Book now</button>
+        <p class="lessonregisteredbar">This item is already in your cart</p>
+        {{else}}
+        <button class="lessontoregisterbtn" type="submit">Book now</button>
+        {{/if}}
+    </div>
+</form>
+{{#each data}}
+    <form action="/createclass" method="post" class="lessonrow">
+        <div class="lessonimgcontainer">
+            <img src="{{this.img}}" class="lessonimg">
+        </div>
+        <div class="leassontextcontainer">
+            <p class="lessonheader">{{this.name}}</p>
+            <p class="lessonduration">{{this.duration}}</p>
+            {{#if this.registered}}
+            <button class="lessonregisteredbtn" type="submit">Book now</button>
+            <p class="lessonregisteredbar">This item is already in your cart</p>
+            {{else}}
+            <button class="lessontoregisterbtn" type="submit">Book now</button>
+            {{/if}}
+        </div>
+    </form>
+{{/each}}
+

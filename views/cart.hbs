@@ -1,0 +1,38 @@
+<style>
+    .cart-main{
+        display: grid;
+        grid-template-columns: 30vw 10vw;
+        padding-left: 25vw;
+        column-gap: 20px;
+    }
+</style>
+<h1>Checkout</h1>
+<section class="cart-main">
+<div>
+    <p>Customer details</p>
+    <input type="text" name="name" id="fname" placeholder="Enter your name ">
+    <input type="email" name="email" id="email" placeholder="Enter your email">
+    <p>WOULD YOU LIKE TO JOIN AS A MEMBER?</p>
+    <p> Members get unlimited classes, for a low monthly price.<p>
+        <input type="radio" name="membership"><label for="membership">Yes</label>
+        <input type="radio" name="membership"><label for="membership">No</label>
+        <select name="membershipPass" id="pass">
+            <option value="monthly">Monthly pass</option>
+            <option value="yearly">Yearly Pass</option>
+        </select>
+    <p> PAYMENT INFORMATION </p>
+    <input type="text" placeholder="Enter Credit card number">
+    <input type="text" placeholder="Enter expiry">
+    <button >PAY</button>
+
+</div>
+<div>
+    <h1>Cart</h1>
+    <p></p>
+    <hr>
+    <p>Subtotal: {{this.subtotal}}</p>
+    <p>Tax:</p>
+    <hr>
+    <p>Total:</p>
+</div>
+</section>
