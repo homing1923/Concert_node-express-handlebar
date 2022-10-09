@@ -4,12 +4,14 @@
     grid-template-columns: 2fr 7fr;
     border: 2px solid black;
     padding: 5px 5px;
-    margin: 2% 5%;
+    margin: 2% 15%;
     box-shadow: 0 8px 8px 0 rgba(0,0,0,0.8);
 }
 
 .lessonimgcontainer{
     height: 100%;
+    display: grid;
+    align-items: center;
 }
 
 .lessonheader{
