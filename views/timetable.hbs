@@ -1,29 +1,37 @@
 <link rel="stylesheet" href="/css/timetable.css">
+<script src="/js/class.js" defer></script>
 
-<h1>
-    Timetable
+<h1 class="tilteh1">
+    Avaliable Classes
 </h1>
-
 {{#if err}}
     {{err}}
 {{/if}}
 
 {{#each data}}
-    <form action="/api/postlesson" method="post" class="lessonrow">
+    <form id={{_id}} action="/addcart/{{_id}}" method="post" class="lessonrow">
         <div class="lessonimgcontainer">
             <img src="{{this.img}}" class="lessonimg">
         </div>
         <div class="leassontextcontainer">
-            <p class="lessonheader">{{this.name}}</p>
-            <p class="lessoninstrctor">{{this.instructor}}</p>
-            <p class="lessonduration">{{this.duration}}</p>
-            {{#if this.registered}}
-            <button class="lessonregisteredbtn" type="submit">Book now</button>
-            <p class="lessonregisteredbar">This item is already in your cart</p>
+            <div>
+                <p class="lessonheader">{{name}}</p> with 
+                <p class="lessoninstrctor">{{instructor}}</p>
+            </div>
+            <div>
+                <p>duration</p>
+                <p class="lessonduration">{{duration}} min</p>
+            </div>
+        
+            {{#if ../user.login}}
+                <button class="lessontoregisterbtn" type="submit">Book now</button>
             {{else}}
-            <button class="lessontoregisterbtn" type="submit">Book now</button>
+                <button id="lessonredirectbtn" class="lessontoregisterbtn" type="button">Book now</button>
             {{/if}}
         </div>
     </form>
 {{/each}}
 
+{{#each user.cart}}
+    <input type="hidden" value={{this}}>
+{{/each}}

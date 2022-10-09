@@ -51,10 +51,10 @@ app.get("/", (req, res) => {
 app.get("/class", (req, res) => {
     lessons.find({}).lean().exec()
     .then(response =>{
-        res.status(200).render("timetable",{layout:'mainframe', data:response,user:req.session});
+        res.status(200).render("timetable",{layout:'mainframe', data:response, user:req.session});
     })
     .catch(err =>{
-        res.status(500).render("timetable",{layout:'mainframe', err:err,user:req.session});
+        res.status(500).render("timetable",{layout:'mainframe', err:err, user:req.session});
     })
     // res.render("timetable", {layout:"mainframe"})
 });
@@ -97,6 +97,21 @@ app.get("/login", (req, res) => {
 app.get("/signup", (req, res) => {
     res.render("signup", {layout:"mainframe",user:req.session})
 });
+
+app.post("/addcart/:id", (req,res) =>{
+    let newcart = req.params.id;
+    req.session.cart.push(newcart)
+    users.updateOne({username:req.session.user},{cart:req.session.cart}).lean().exec()
+    .then(response =>{
+        console.log(response);
+        res.status(200).redirect("/cart");
+    })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).redirect("/");
+    })
+})
+
 app.get("/cart", (req, res) => {
     res.render("cart", {layout:"mainframe",user:req.session})
 });
@@ -116,9 +131,11 @@ app.post("/login", (req, res) => {
         if(response !== null){
             if(passwordinput === response.password){
                 req.session.userid = response._id;
+                req.session.user = response.username;
                 req.session.isadmin = response.isadmin;
                 req.session.cart = response.cart;
                 req.session.login = true;
+                console.log(req.session);
             }
             if(req.session.isadmin){
                 res.redirect("/manageclass");

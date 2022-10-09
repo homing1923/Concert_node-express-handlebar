@@ -2,7 +2,7 @@
 <script src="/js/manage.js" defer></script>
 
 
-<h1>
+<h1 class="tiltes">
     Add lesson and see all lessons
 </h1>
 {{#if user.isadmin}}
@@ -46,9 +46,14 @@
         <img id="previewimg" src="" class="lessonimg">
     </div>
     <div class="leassontextcontainer">
-        <p id="previewtitle" class="lessonheader">Title</p>
-        <p id="previewinstructor" class="lessoninstrctor">Instructor</p>
-        <p id="previewduration" class="lessonduration">duration</p>
+        <div>
+            <p id="previewtitle" class="lessonheader">{{name}}</p> with 
+            <p id="previewinstructor" class="lessoninstrctor">{{instructor}}</p>
+        </div>
+        <div>
+            <p>duration</p>
+            <p id="previewduration" class="lessonduration">{{duration}} min</p>
+        </div>
         <button class="lessontoregisterbtn" type="button">Book now</button>
     </div>
 </form>
@@ -61,9 +66,14 @@
             <img src="{{this.img}}" class="lessonimg">
         </div>
         <div class="leassontextcontainer">
-            <p class="lessonheader">{{this.name}}</p>
-            <p class="lessoninstrctor">{{this.instructor}}</p>
-            <p class="lessonduration">{{this.duration}}</p>
+            <div>
+                <p class="lessonheader">{{name}}</p> with 
+                <p class="lessoninstrctor">{{instructor}}</p>
+            </div>
+            <div>
+                <p>duration</p>
+                <p class="lessonduration">{{duration}} min</p>
+            </div>
             <button class="lessontoregisterbtn" type="submit">Delete this lesson</button>
         </div>
     </form>

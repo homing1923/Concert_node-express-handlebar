@@ -9,7 +9,7 @@
 body{
     text-align: center;
     display: grid;
-    background-color: #F5FFFF;
+    background-color: #f9f5f0;
     grid-template-rows: 1fr 15fr 1fr;
     height: 100vh;
 
@@ -37,7 +37,7 @@ a{
 }
 
 a:hover{
-    color:aquamarine;
+    color:#B5B5BE;
     transition: 0.05s;
 }
 
@@ -45,8 +45,16 @@ a:visited{
     text-decoration-line:none;
 }
 
+.tilteh1{
+    margin: 20px 20px;
+    padding: 20px 20px;
+    background-color: #FFF9F1;
+    border: 3px solid black;
+    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.2);
+}
+
 #loginform{
-    border: 10px solid #ffffff;
+    border: 10px solid #AFB9B5;
     margin: 15% 30%;
     padding: 30px 30px;
     text-align: center;
@@ -60,18 +68,34 @@ a:visited{
 }
 
 .loginbtndiv{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    column-gap: 10%;
     padding-top:5%;
     width: calc(100% - 10px);
 }
 
 .loginbtn{
-    padding: 20px 20px;
-    width: 30%;
+    padding: 20px 0px;
+    width: 40%;
+}
+
+.loginbtn:hover{
+    cursor: pointer;
+    color: white;
+    background-color: #444E4A;
 }
 
 .signupbtn{
-    padding: 20px 20px;
-    width: 30%;
+    padding: 20px 0px;
+    width: 40%;
+}
+
+.signupbtn:hover{
+    cursor: pointer;
+    color: white;
+    background-color: #444E4A;
 }
 
 .landingh1{
@@ -110,7 +134,8 @@ main{
 }
 
 footer{
-    background-color: #B5F6B5;
+    background-color: #000000;
+    color: #ffffff;
     height: 50px;
     width: 100%;
     padding-top: 1%;
