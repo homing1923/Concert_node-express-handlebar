@@ -1,21 +1,21 @@
 <header>
-    <a href="./"><h1>Home</h1></a>
-    <a href="./class"><h1>Classes</h1></a>
+    <a href="./"><h2>Home</h2></a>
+    <a href="./class"><h2>Classes</h2></a>
     <a href=""></a>
     {{#if user.login}}
         {{#if user.isadmin}}
-        <a href="./manageclass"><h1>Manage</h1></a>
-        <a href="./vieworder"><h1>Orders</h1></a>
-        <a href="./logout"><h1>Logout</h1></a>
+        <a href="./manageclass"><h2>Manage</h2></a>
+        <a href="./vieworder"><h2>Orders</h2></a>
+        <a href="./logout"><h2>Logout</h2></a>
         {{else}}
         <a href=""></a>
-        <a href="./class"><h1>Cart</h1></a>
-        <a href="./logout"><h1>Logout</h1></a>
+        <a href="./class"><h2>Cart</h2></a>
+        <a href="./logout"><h2>Logout</h2></a>
         {{/if}}
     {{else}}
     <a href=""></a>
     <a href=""></a>
-    <a href="./login"><h1>login</h1></a>
+    <a href="./login"><h2>login</h2></a>
     {{/if}}
     
 </header>
