@@ -5,7 +5,9 @@
 <h1>
     Add lesson and see all lessons
 </h1>
-
+{{#if user.isadmin}}
+<input type="hidden" id="admincheck" value="true">
+{{/if}}
 {{#if err}}
     {{err}}
     <hr>
@@ -19,8 +21,6 @@
         <input name="instructor" type="text" placeholder="instructor name here" required="true">
         <label for="duration">Duration: </label>
         <input name="duration" type="number" placeholder="30" required="true">
-        <label for="fee">Fee: </label>
-        <input name="fee" type="number" placeholder="Emter fee here" required="true">
         <label for="imglink">Image link: </label>
         <select name="img" placeholder="img link here" required="true">
             <option value="https://bl6pap004files.storage.live.com/y4m2zG0Qr9hekSto_oJ3ddphdXEN7drl5nJ8fORWbKfAKXXF1CLGDjL63IeFzw4r1Q1GxNosZIacu6mzcqWh1d3pAQ45oT5BI-k8JzigzrIfsxLIF_nAS5ByuEnyTf8aiW9iDsoN1kkVj8HyxZSuuPDEOG2tvHX_ub0SuLKOD14h_F7otfEr4ZAHLyUs5QKA2Ta?width=512&height=512&cropmode=none">Demo pic 1</option>

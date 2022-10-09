@@ -1,6 +1,7 @@
 const previewlessonbtn = document.getElementById("previewlessonbtn");
 const imgselection = document.getElementsByTagName("select")[0];
 const previewimg = document.getElementById("previewimg");
+const adminvalue = document.getElementById("admincheck");
 
 renderpreview = () =>{
     console.log("render");
@@ -17,6 +18,21 @@ renderpreviewpic = () =>{
     previewimg.setAttribute("src",imgselection.value);
 }
 
-
 imgselection.addEventListener("change", renderpreviewpic);
 previewlessonbtn.addEventListener("click", renderpreview);
+
+
+const checkadmin = () =>{
+    try {
+        if(adminvalue.value === "true"){
+
+        }else{
+            window.location.href = "./deny";
+        }
+    } catch (error) {
+        window.location.href = "./deny";
+    }
+    
+}
+
+window.addEventListener("load", checkadmin);
