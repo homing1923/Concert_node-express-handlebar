@@ -1,3 +1,5 @@
+<script src="/js/login.js" defer></script>
+
 {{#if User}}
     <h1>
         Maybe you can do some modification of your account here.
@@ -9,8 +11,8 @@
 <input class="inputs" id="loginname" type="text" placeholder="Enter your emailaddress" required>
 <input class="inputs" id="loginpassword" type="password" placeholder="Enter your password" required>
 <div class="loginbtndiv">
-    <button id="loginbtn" class="loginbtn" onclick="submit">Login</button>
-    <button id="signupbtn" class="signupbtn" onclick="location.href = './signup'">SignUp</button>
+    <button id="loginbtn" class="loginbtn" type="submit">Login</button>
+    <button id="signupbtn" class="signupbtn" type="button">SignUp</button>
 </div>
 
 </form>

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/css/timetable.css">
+
 <h1>
     Timetable
 </h1>
@@ -13,6 +15,7 @@
         </div>
         <div class="leassontextcontainer">
             <p class="lessonheader">{{this.name}}</p>
+            <p class="lessoninstrctor">{{this.instructor}}</p>
             <p class="lessonduration">{{this.duration}}</p>
             {{#if this.registered}}
             <button class="lessonregisteredbtn" type="submit">Book now</button>

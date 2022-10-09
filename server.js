@@ -18,7 +18,7 @@ app.set('view engine', '.hbs');
 mg.connect("mongodb+srv://dbUser:dbPassword@t440cluster.uwdgov5.mongodb.net/?retryWrites=true&w=majority");
 
 //Server Const
-const userschema = new mg.Schema({id:Number,username:String,password:String,email:String,name:String,cart:Array,Membership:Boolean});
+const userschema = new mg.Schema({username:String,password:String,email:String,name:String,cart:Array,Membership:Boolean});
 const lessonschema = new mg.Schema({name:String,instructor:String,duration:Number,fee:Number,img:String});
  
 const lessons = mg.model("lessons", lessonschema);
@@ -49,7 +49,7 @@ app.get("/class", (req, res) => {
     // res.render("timetable", {layout:"mainframe"})
 });
 
-app.get("/createclass", (req,res) =>{
+app.get("/manageclass", (req,res) =>{
     lessons.find({}).lean().exec()
     .then(response =>{
         res.status(200).render("lessonmanage",{layout:'mainframe', data:response});
@@ -60,28 +60,29 @@ app.get("/createclass", (req,res) =>{
     })
 })
 
-app.post("/createclass", (req,res) =>{
-    const newlesson = new lessons({name:req.body.nameinput, instructor:req.body.instructor, duration:req.body.durationinput, fee:req.body.fee, img:req.body.img})
+app.post("/manageclass", (req,res) =>{
+    const newlesson = new lessons({name:req.body.nameinput, instructor:req.body.instructor, duration:req.body.duration, fee:req.body.fee, img:req.body.img})
     newlesson.save()
     .then(response =>{
-        res.status(200).render("lessonmanage",{layout:"mainframe"});
+        res.status(200).render("redirect",{layout:"mainframe"});
     })
     .catch(err =>{
-        res.status(500).render("lessonmanage",{layout:"mainframe"});
+        res.status(500).render("redirect",{layout:"mainframe"});
     })
 })
 
 app.post("/deleteclass/:id", (req,res) =>{
     lessons.deleteOne({_id:req.params.id}).lean().exec()
     .then(response =>{
-        res.status(200).redirect("/createclass");
+        res.status(200).redirect("/manageclass");
     })
     .catch(err =>{
-        res.status(500).redirect("/createclass");
+        res.status(500).redirect("/manageclass");
     })
 })
 
 app.get("/login", (req, res) => {
+
     res.render("login", {layout:"mainframe"})
 });
 

@@ -1,13 +1,18 @@
+<link rel="stylesheet" href="/css/timetable.css">
+<script src="/js/manage.js" defer></script>
+
+
 <h1>
     Add lesson and see all lessons
 </h1>
 
 {{#if err}}
     {{err}}
+    <hr>
 {{/if}}
 
-<form action="/createclass" method="post" class="createrow">
-    <div class="leassontextcontainer">
+<form action="/manageclass" method="post" class="createrow">
+    <div class="manageinputcontainer">
         <label for="nameinput">Class Name: </label>
         <input name="nameinput" type="text" placeholder="Class name here" required="true">
         <label for="instructorinput">instructor Name: </label>
@@ -15,12 +20,40 @@
         <label for="duration">Duration: </label>
         <input name="duration" type="number" placeholder="30" required="true">
         <label for="fee">Fee: </label>
-        <input name="fee" type="number" placeholder="fee link here" required="true">
+        <input name="fee" type="number" placeholder="Emter fee here" required="true">
         <label for="imglink">Image link: </label>
-        <input name="img" type="String" placeholder="img link here" required="true">
+        <select name="img" placeholder="img link here" required="true">
+            <option value="https://bl6pap004files.storage.live.com/y4m2zG0Qr9hekSto_oJ3ddphdXEN7drl5nJ8fORWbKfAKXXF1CLGDjL63IeFzw4r1Q1GxNosZIacu6mzcqWh1d3pAQ45oT5BI-k8JzigzrIfsxLIF_nAS5ByuEnyTf8aiW9iDsoN1kkVj8HyxZSuuPDEOG2tvHX_ub0SuLKOD14h_F7otfEr4ZAHLyUs5QKA2Ta?width=512&height=512&cropmode=none">Demo pic 1</option>
+            <option value="https://bl6pap004files.storage.live.com/y4mL0EfSYBJS3u0-Z18dmSjwAhAJIB8oL3csje-V3xYHASCRR8XpgoepVk4x8H_wmG15j6ji4oVLZH8CxpeGMeQhilCivNgQXrreNClkJGdptAaf68eB7xMY8RnsJJhqkkCc4YaL8_ra4eR7YkK2ddYLSSt0wSoZ3NLNU52FkaRrK8pVRks3zS54tmc0vUaFHbR?width=512&height=512&cropmode=none">Demo pic 2</option>
+            <option value="https://bl6pap004files.storage.live.com/y4mKQhNGMJgkjQw_8R7lkVPMKXJO1RHLJF3Rg_D-Rz52EZUwsvhMK77KYJQ69mamZaGHTvME3gblDLUT99H86SnpwBuUBE9F-M5EEK0NcYeh6KRtLGXq9QeOqhUv8NIJXjPsqcMNO_SaJNhsbom0Eg5sM5OH0LXs_NPc5drw9d4fwB6Ro8R1FDVVzY3nwKe-o1J?width=512&height=512&cropmode=none">Demo pic 3</option>
+            <option value="https://bl6pap004files.storage.live.com/y4mtpCa0dF0oAI_q3KfhSxCFhLRcml27IlzRyzvtdeO7iPry_K9n03ZaF0833kGfYbsAohV8nSNK_KeA9OUP-4cJ6yDTosdzlsIUsxJ2q3Ht0_XxeHZBB03UQ0LzRujscpjQn9nrI9HXKd8HurHTW8bJyZsVw-pjfXkcxMcQrRmrQMctJbaMNWWRDp2R-oj2BRk?width=512&height=512&cropmode=none">Demo pic 4</option>
+            <option value="https://bl6pap004files.storage.live.com/y4mgfmVVZriVm_0gCertk7LbBzsiiQ2CVl-I1-HMYz2OZJffRE3EPTD1bWxK18llV0rfrB1BUS1L3RxDsHa_qpFIKdDFftJNr03rYSykzYkCjjFZC8gSjJGSC9uGUkTNG-_dHGyQGRSo1MICyslHuZzGA6kvrLRScZVSI9Afaj2C2ykRxWeSh3brTk3AJiR3MVA?width=512&height=512&cropmode=none">Demo pic 5</option>
+            <option value="https://bl6pap004files.storage.live.com/y4mpO1TApPGP6-PA5EZf6i05HQkBv_wx48qZFAdwa8_v5eGM5cCOtnQJ7pklL_T6QxcRcYiSICKMNUXYNV5NXOolyrbiObsVs5QJDELDXRPdEw3PPf30w7QzcX6bbaaOL20rV6rqG20T9JrsU_2EObILojHnD0n9ReMXSCAti56GIamXzKCfi1N7-JjawNqJBOK?width=512&height=512&cropmode=none">Demo pic 6</option>
+            <option value="https://bl6pap004files.storage.live.com/y4mhaCaY5V-S5vSQa2mYGi8oSBB8DIBiZyZhl3rzf_8oD4udkwWszyE7GvOSJ-FvHZ-q-pRr2J08n6_uvAgGUPGgj1K017FvLeY6qRX3VcgqilV13lWho6fXIgfbKvOM-C2Js6XMsLU67ZvfUPR6kCEax2_9zwuII2WWIgeA3bJpmgO5U4cSbhpeoAXDGRSp3rv?width=512&height=512&cropmode=none">Demo pic 7</option>
+            <option value="https://bl6pap004files.storage.live.com/y4mqY5mUxacOsH37aQfTOCalhWkUrTa2Atf3QG1b77ej1GnDJp7zUZto0-sWcM9gby2rZOOcvwMOWK-9ItUYghYe2-2bx8nL83epnY5fTjEd3_wEmkI9xKYkoye5D8O7b3IthVF1tWO10SEi3JomfQrG8kI20uSlf-0qGcs3oX-bPqU1NpFeQXdsPqkBbvUyyh0?width=512&height=512&cropmode=none">Demo pic 8</option>
+            <option value="https://bl6pap004files.storage.live.com/y4mvVPKQU3fo3skP99aoFEIiqMRLzUi5iksyR0cZ-B5YbMLGhM6z5EnXpHgHrp8s0w5cMcZ4oE_7xwhLz_MEU6_laErvgO6wuSl6ApOHaPq1avzlD9ynT4Y8-ntqRqIUJyWSHPm44qMJBDT1mSO88s0u1ywQNQGHOyolAoO_Pv4gAjlh-U2SB8CIFA64eMZ1o1I?width=512&height=512&cropmode=none">Demo pic 9</option>
+            <option value="https://bl6pap004files.storage.live.com/y4mDDuf9AZU2Flkbh0Tc5EiCyW4LcTM882hDqrc1tbW3YxEPLHiTKzL0MEQueLL8vgFecQKiBShpltxnwLz7Yj49EnN3_yQD48au9-0CxVcBIApqR5ZNBwdNsI9G4GYlYOLz7XSR3DXk-x1PzU5LfU3lDMlbCi_zcxfCM9JuMYDAkVbJ6d0gJwDzpCzM3bYpTHT?width=512&height=512&cropmode=none">Demo pic 10</option>
+        </select>
     </div>
-    <button class="lessonregisteredbtn" type="submit">Submit to server</button>
+    <div class="managebtncontainer">
+        <button id="previewlessonbtn"class="lessonregisterebtn" type="button">Preview lesson</button>
+        <button class="lessonregisteredbtn" type="submit">Submit to server</button>
+    </div>
 </form>
+
+<form class="lessonrow">
+    <div class="lessonimgcontainer">
+        <img id="previewimg" src="" class="lessonimg">
+    </div>
+    <div class="leassontextcontainer">
+        <p id="previewtitle" class="lessonheader">Title</p>
+        <p id="previewinstructor" class="lessoninstrctor">Instructor</p>
+        <p id="previewduration" class="lessonduration">duration</p>
+        <button class="lessontoregisterbtn" type="button">Book now</button>
+    </div>
+</form>
+
+<hr>
 
 {{#each data}}
     <form action="/deleteclass/{{this._id}}" method="post" class="lessonrow">
@@ -29,8 +62,9 @@
         </div>
         <div class="leassontextcontainer">
             <p class="lessonheader">{{this.name}}</p>
+            <p class="lessoninstrctor">{{this.instructor}}</p>
             <p class="lessonduration">{{this.duration}}</p>
-            <button class="lessondeletebtn" type="submit">Delete this lesson</button>
+            <button class="lessontoregisterbtn" type="submit">Delete this lesson</button>
         </div>
     </form>
 {{/each}}

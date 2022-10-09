@@ -7,12 +7,16 @@
     /* width:calc([min size]px + ([max size] — [min size]) * ((100vw — [min vw width]px) / ([max vw width] — [min vw width]))) */
 }
 
+html{
+    height: auto;
+}
+
 body{
     text-align: center;
     display: grid;
     background-color: #F5FFFF;
     grid-template-rows: 1fr 15fr 1fr;
-
+    height: auto;
 }
 
 hero{
@@ -80,7 +84,8 @@ a:visited{
 
 main{
     background-color: #F5FFFF;
-    height: 100vh;
+    /* height: 100vh; */
+    min-height: cal(100vh - 50px);
 }
 
 #searchoption{
@@ -100,6 +105,8 @@ main{
 
 footer{
     background-color: #B5F6B5;
+    height: 50px;
     width: 100%;
     padding-top: 1%;
+    /* margin-top: -15%; */
 }
