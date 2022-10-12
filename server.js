@@ -100,8 +100,10 @@ app.get("/signup", (req, res) => {
 });
 
 app.post("/addcart/:id", (req,res) =>{
-    let newcart = req.params.id;
-    req.session.cart.push(newcart)
+    console.log(req.body);
+    let newitem = {lessonid:req.params.id, lessonimg: req.body.img, lessonname: req.body.name, lessoninstructor: req.body.instructor, lessonduration: req.body.duration};
+    console.log(newitem["lessonname"]);
+    req.session.cart.push(newitem);
     users.updateOne({username:req.session.user},{cart:req.session.cart}).lean().exec()
     .then(response =>{
         console.log(response);
@@ -114,9 +116,9 @@ app.post("/addcart/:id", (req,res) =>{
 })
 
 app.get("/cart", (req, res) => {
-    lessons.find({}).lean().exec()
+    users.find({}).lean().exec()
     .then(response =>{
-    res.render("cart", {layout:"mainframe",user:req.session,data:response})
+        res.render("cart", {layout:"mainframe",user:response})
     })
     .catch(err=>{
         res.status(500).render("cart",{layout:"mainframe",err:err,user:req.session})

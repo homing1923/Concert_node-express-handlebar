@@ -11,16 +11,20 @@
 {{#each data}}
     <form id={{_id}} action="/addcart/{{_id}}" method="post" class="lessonrow">
         <div class="lessonimgcontainer">
-            <img src="{{this.img}}" class="lessonimg">
+            <input name="img" value={{img}} type="hidden">
+            <img name={{img}} src="{{img}}" class="lessonimg">
         </div>
         <div class="leassontextcontainer">
             <div>
-                <p class="lessonheader">{{name}}</p> with 
-                <p class="lessoninstrctor">{{instructor}}</p>
+                <input name="name" value={{name}} type="hidden">
+                <p name={{name}} class="lessonheader">{{name}}</p> with 
+                <input name="instructor" value={{instructor}} type="hidden">
+                <p name={{instructor}} class="lessoninstrctor">{{instructor}}</p>
             </div>
             <div>
                 <p>duration</p>
-                <p class="lessonduration">{{duration}} min</p>
+                <input name="duration" value={{duration}} type="hidden">
+                <p name={{duration}} class="lessonduration">{{duration}} min</p>
             </div>
         
             {{#if ../user.login}}
@@ -32,6 +36,6 @@
     </form>
 {{/each}}
 
-{{#each user.cart}}
+{{#each user.cart.lessonid}}
     <input type="hidden" value={{this}}>
 {{/each}}
