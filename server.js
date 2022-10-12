@@ -237,7 +237,15 @@ app.post("/addcart/:id", (req,res) =>{
 app.get("/cart", (req, res) => {
     res.render("cart", {layout:"mainframe",user:req.session})
 })
-
+app.post("/deletecartitem/:id", (req,res) =>{
+    usercarts.deleteOne({id:req.params.id}).lean().exec()
+    .then(response =>{
+        res.status(200).redirect("/cart");
+    })
+    .catch(err =>{
+        res.status(500).redirect("/cart");
+    })
+})
 // app.get("/servermigrate", (req,res) =>{
 //     let newcart = [];
 //     users.find({}).lean().exec()
