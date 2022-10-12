@@ -1,21 +1,30 @@
 <link rel="stylesheet" href="/css/mainframe.css">
 <link rel="stylesheet" href="/css/signup.css">
+<script src="/js/signup.js" defer></script>
+
 
 <h1 class="tilteh1">Register your new account to start your road to fitness</h1>
 
 
 <form class="signupform" id="signupform" action="/signup" method="post">
 <h1 class="tilteh1">Register Form</h1>
-    {{#if err}}
-    <p class="errortext">{{this.err}}</p>
-    {{/if}}
+    <p class="inputerrortext">
+        {{#if err}}
+            {{#each err}}
+                {{err}}<br>
+            {{/each}}
+        {{/if}}
+    </p>
+    
     <div class="signupinfo">
         <label for="signupname">User Name: </label>
-        <input id="signupname" type="text" placeholder="Enter your emailaddress" required>
+        <input name="signupname" id="signupname" type="text" placeholder="Enter your username" required>
+        <label for="email">Email Address: </label>
+        <input name="email" id="email" type="email" placeholder="Enter your emailaddress" autocomplete="email" required>
         <label for="signupname">Password: </label>
-        <input id="signuppassword" type="password" placeholder="Enter your password" required>
+        <input name="signuppassword" id="signuppassword" type="password" placeholder="Enter your password" required>
         <label for="signupname">Confirm Password: </label>
-        <input id="signuppasswordconfirm" type="password" placeholder="Repeat Your password" required>
+        <input name="signuppasswordconfirm" id="signuppasswordconfirm" type="password" placeholder="Repeat Your password" required>
     </div>
 
     <div class="regisbtndiv">

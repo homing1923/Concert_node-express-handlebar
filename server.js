@@ -92,19 +92,98 @@ app.post("/deleteclass/:id", (req,res) =>{
     })
 })
 
-//
 
-app.get("/login", (req, res) => {
-    res.render("login", {layout:"mainframe",user:req.session});
-});
+//Sign up
 
 app.get("/signup", (req, res) => {
     res.render("signup", {layout:"mainframe",user:req.session});
 });
 
 app.post("/signup", (req, res) => {
-    
+    const usernameinput = req.body.signupname;
+    const signuppassword = req.body.signuppassword;
+    const signuppasswordconfirm = req.body.signuppasswordconfirm;
+    const emailinput = req.body.email;
+    let errarray = [];
+    let haserr = false;
+    //server side check
+    if (usernameinput === undefined || usernameinput.trim() === ""){
+        errarray.push({"err":"Username cannot be empty"});
+        haserr = true;
+    }
+    if(signuppassword === undefined || signuppassword.trim() === ""){
+        errarray.push({"err":"Password cannot be empty"});
+        haserr = true;
+    }
+    if(emailinput === undefined || emailinput.trim() === ""){
+        errarray.push({"err":"Email cannot be empty"});
+        haserr = true;
+    }
+    if(signuppasswordconfirm === undefined || signuppasswordconfirm.trim() === ""){
+        errarray.push({"err":"Confirm Password cannot be empty"});
+        haserr = true;
+    }
+    if(haserr){
+        console.log(errarray);
+        return res.render("signup", {layout:"mainframe", err:errarray});
+    }
+    let useranotavaliable = true;
+    users.findOne({username:usernameinput}).lean().exec()
+    .then(response =>{
+        console.log(response);
+        if(response === null){
+            return true;
+        }else{
+            errarray.push({"err":"Username already being used"});
+            return res.render("signup", {layout:"mainframe", err:errarray});
+        }
+    })
+    // .then(response =>{
+
+    // })
+    .catch(err =>{
+        console.log(err);
+    })
+
+    if(errarray.length > 0){
+        return res.render("signup", {layout:"mainframe", err:errarray});
+    }
+
+    const newuser = new users({username:usernameinput,password:signuppassword,email:emailinput,name:"",cart:[],membership:false,isadmin:false})
+    newuser.save()
+    .then(response =>{
+        console.log(response);
+        req.session.userid = response._id;
+        req.session.user = response.username;
+        req.session.isadmin = response.isadmin;
+        req.session.cart = response.cart;
+        req.session.login = true;
+        console.log(req.session);
+        return res.redirect("/cart");
+    })
+    .catch(err =>{
+        errarray.push({"err":"Server Error"});
+        return res.status(500).render("signup", {layout:"mainframe", err:errarray});
+    })
+
+
 });
+
+app.post("/api/v0/usercheck/:username", (req,res)=>{
+    if (req.params.username !== undefined || req.params.username.trim() !== ""){
+        const usernameinput = req.params.username;
+        users.findOne({username:usernameinput}).lean().exec()
+        .then(response =>{
+            if(response === null){
+                return res.json({"result":true});
+            }
+            return res.json({"result":false});
+        })
+        .catch(err =>{
+            Promise.reject(err);
+        })
+    }
+})
 
 //Cart related
 
@@ -125,15 +204,14 @@ app.post("/addcart/:id", (req,res) =>{
 })
 
 app.get("/cart", (req, res) => {
-    users.find({}).lean().exec()
-    .then(response =>{
-        res.render("cart", {layout:"mainframe",user:response})
-    })
-    .catch(err=>{
-        res.status(500).render("cart",{layout:"mainframe",err:err,user:req.session})
-    })
-    
+    res.render("cart", {layout:"mainframe",user:req.session})
 })
+
+//Login
+
+app.get("/login", (req, res) => {
+    res.render("login", {layout:"mainframe",user:req.session});
+});
 
 app.post("/login", (req, res) => {
     //1 verify empty
@@ -162,7 +240,8 @@ app.post("/login", (req, res) => {
                 res.render("cart",{layout:"mainframe",user:req.session});
             }
         }else{
-            res.render("login",{layout:"mainframe",user:req.session});
+            const err = {err:"Incorrect login infomation provided"}
+            res.render("login",{layout:"mainframe",user:req.session, err:err});
         }
     })
     .catch(err =>{

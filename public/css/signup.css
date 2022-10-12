@@ -27,3 +27,11 @@
     margin-top: 15px;
     padding: 15px 25px;
 }
+
+.greenbracket{
+    border: 3px solid green;
+}
+
+.redbracket{
+    border: 3px solid red;
+}
