@@ -260,7 +260,16 @@ app.post("/deletecartitem/:lessonid", (req,res) =>{
 //         return newcart;
 //     })
 //     .then(cart =>{
+//         usercarts.find({}).lean().exec()
+//         .then(response =>{
+            
 //         for(eachcartitem in cart){
+//             for (eachreponse in response){
+//                 if(cart[eachcartitem].username === response[eachreponse].username){
+//                     break;
+//                 }
+//             }
+//         }
 //             const newcart = new usercarts({username:cart[eachcartitem]["username"],cart:cart[eachcartitem]["cart"]});
 //             newcart.save({})
 //             .then(response =>{
@@ -305,6 +314,8 @@ app.post("/login", (req, res) => {
             const err = {err:"Incorrect login infomation provided"}
             res.render("login",{layout:"mainframe",user:req.session, err:err});
         }
+        return response;
+        
     })
     .then(
         usercarts.findOne({username:usernameinput}).lean().exec()
