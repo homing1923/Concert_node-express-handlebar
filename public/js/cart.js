@@ -8,18 +8,17 @@ const membership = (value) =>{
     }
 } 
     
-const durations = document.getElementsByClassName("duration").value;
+const durations = document.getElementsByClassName("duration");
 // document.getElementById("testing").innerText(`${durations}`);
-const forms= document.getElementsByTagName("form")
-let totalduration=0
-for(i=o;i<forms.length;i++){
-    totalduration+=Number(forms[i].getElementsByTagName("input").value);
-
+let totalduration=0;
+for(i=0;i<durations.length;i++){
+    totalduration += parseInt(durations[i].value);
+    console.log(totalduration);
 }
-let subtotal = totalduration*0.58
-let tax= subtotal*0.13
+let subtotal = Math.round(totalduration*0.58*100,2)/100;
+let tax= Math.round(subtotal*0.13*100,2)/100;
 let total= subtotal+tax
 
-document.getElementById("calculation").innerHTML(`<p> Subtotal: ${subtotal} </p>
+document.getElementById("calculation").innerHTML = (`<p> Subtotal: ${subtotal} </p>
                                                 <p>Tax: ${tax}</p>
-                                                <p>Total: ${total}`)
+                                                <p>Total: ${total}</p>`)
