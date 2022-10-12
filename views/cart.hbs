@@ -1,3 +1,6 @@
+<script src="/js/cart.js" defer></script>
+
+
 <style>
     .cart-main{
         display: grid;
@@ -5,7 +8,9 @@
         padding-left: 25vw;
         column-gap: 20px;
     }
+
 </style>
+
 <h1>Checkout</h1>
 <section class="cart-main">
 <div>
@@ -14,21 +19,33 @@
     <input type="email" name="email" id="email" placeholder="Enter your email">
     <p>WOULD YOU LIKE TO JOIN AS A MEMBER</p>
     <p> Members get unlimited classes, for a low monthly price.<p>
-        <input type="radio" name="membership"><label for="membership">Yes</label>
-        <input type="radio" name="membership"><label for="membership">No</label>
-        <select name="membershipPass" id="pass">
+        <input type="radio" name="membership" checked value="yes" id="yes"><label for="membership">Yes</label>
+        <input type="radio" name="membership"  value="no" onclick="membership(no)"><label for="membership">No</label>
+        <select name="membershipPass" id="memberpassinput">
             <option value="monthly">Monthly pass</option>
             <option value="yearly">Yearly Pass</option>
         </select>
+
     <p> PAYMENT INFORMATION </p>
     <input type="text" placeholder="Enter Credit card number">
     <input type="text" placeholder="Enter expiry">
-    <button >PAY</button>
+    <button>PAY</button>
 
 </div>
 <div id="cartcontainer">
     <h1>Cart</h1>
-{{#each user}}
-<h1>{{user.cart.lessonname}}</h1>
-<
+{{#each user.cart}}
+
+        <form action="/deleteitem/:_lessonname" method="post">
+                <p name={{lessonname}} class="lessonheader">{{lessonname}} with:
+                {{lessoninstructor}}</p>
+                <input name="duration" class="duration" value={{lessonduration}} type="hidden">
+                <p name={{lessonduration}} class="lessonduration">duration: {{lessonduration}} min</p>
+                <button type="submit">Remove</button>
+                <p id="testing"></p>
+        </form>
+
 {{/each}}
+</div>
+
+</section>  

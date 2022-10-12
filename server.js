@@ -31,10 +31,10 @@ app.use(session({
 //Server Const
 const userschema = new mg.Schema({username:String,password:String,email:String,name:String,cart:Array,membership:Boolean,isadmin:Boolean});
 const lessonschema = new mg.Schema({name:String,instructor:String,duration:Number,img:String});
- 
+const ordersschema = new mg.Schema({customerdetails:Array,paymentinformation:Array,subtotal:Number,tax:Number,total:Number,transactionnumber:String}) 
 const lessons = mg.model("lessons", lessonschema);
 const users = mg.model("users", userschema);
-
+const orders = mg.model("orders", ordersschema)
 
 
 //Default listener
