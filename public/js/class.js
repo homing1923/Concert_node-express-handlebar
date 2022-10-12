@@ -1,5 +1,5 @@
 const lessonredirectbtn = document.getElementById("lessonredirectbtn");
-const usercartitems = document.getElementsByTagName("input");
+const usercartitems = document.getElementsByClassName("cartitems");
 redirecttologin = () =>{
     window.location.href = "./login";
 }

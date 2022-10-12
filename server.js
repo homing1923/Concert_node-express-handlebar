@@ -52,6 +52,7 @@ app.get("/", (req, res) => {
 app.get("/class", (req, res) => {
     lessons.find({}).lean().exec()
     .then(response =>{
+        console.log([0]["lessonid"]);
         res.status(200).render("timetable",{layout:'mainframe', data:response, user:req.session});
     })
     .catch(err =>{
@@ -91,13 +92,21 @@ app.post("/deleteclass/:id", (req,res) =>{
     })
 })
 
+//
+
 app.get("/login", (req, res) => {
-    res.render("login", {layout:"mainframe",user:req.session})
+    res.render("login", {layout:"mainframe",user:req.session});
 });
 
 app.get("/signup", (req, res) => {
-    res.render("signup", {layout:"mainframe",user:req.session})
+    res.render("signup", {layout:"mainframe",user:req.session});
 });
+
+app.post("/signup", (req, res) => {
+    
+});
+
+//Cart related
 
 app.post("/addcart/:id", (req,res) =>{
     console.log(req.body);
@@ -163,9 +172,6 @@ app.post("/login", (req, res) => {
 
 });
 
-app.post("/signup", (req, res) => {
-    
-});
 
 app.get("/logout", (req, res) =>{
     req.session.destroy();

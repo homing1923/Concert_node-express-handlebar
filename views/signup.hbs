@@ -1,13 +1,25 @@
-<h1 class="tiltes">Register your new account to start your road to fitness</h1>
+<link rel="stylesheet" href="/css/mainframe.css">
+<link rel="stylesheet" href="/css/signup.css">
+
+<h1 class="tilteh1">Register your new account to start your road to fitness</h1>
 
 
 <form class="signupform" id="signupform" action="/signup" method="post">
+<h1 class="tilteh1">Register Form</h1>
+    {{#if err}}
+    <p class="errortext">{{this.err}}</p>
+    {{/if}}
+    <div class="signupinfo">
+        <label for="signupname">User Name: </label>
+        <input id="signupname" type="text" placeholder="Enter your emailaddress" required>
+        <label for="signupname">Password: </label>
+        <input id="signuppassword" type="password" placeholder="Enter your password" required>
+        <label for="signupname">Confirm Password: </label>
+        <input id="signuppasswordconfirm" type="password" placeholder="Repeat Your password" required>
+    </div>
 
-<input id="signupname" type="text" placeholder="Enter your emailaddress" required>
-<input id="signuppassword" type="password" placeholder="Enter your password" required>
-<input id="signuppasswordconfirm" type="password" placeholder="Repeat Your password" required>
-<div class="regisbtndiv">
-    <button id="regisbtn" class="regisbtn" onclick="submit">Register</button>
-</div>
+    <div class="regisbtndiv">
+        <button id="regisbtn" class="regisbtn" onclick="submit">Register</button>
+    </div>
 
 </form>

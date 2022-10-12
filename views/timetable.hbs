@@ -36,6 +36,6 @@
     </form>
 {{/each}}
 
-{{#each user.cart.lessonid}}
-    <input type="hidden" value={{this}}>
+{{#each user.cart}}
+    <input class="cartitems" type="hidden" value={{this.lessonid}}>
 {{/each}}

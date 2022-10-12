@@ -99,12 +99,6 @@ a:visited{
     background-color: #444E4A;
 }
 
-.landingh1{
-    padding-top: 5%;
-}
-
-
-
 main{
     /* height: 100vh; */
     min-height: cal(100vh - 50px);
