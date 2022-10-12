@@ -116,14 +116,7 @@ app.post("/addcart/:id", (req,res) =>{
 })
 
 app.get("/cart", (req, res) => {
-    users.find({}).lean().exec()
-    .then(response =>{
-        res.render("cart", {layout:"mainframe",user:response})
-    })
-    .catch(err=>{
-        res.status(500).render("cart",{layout:"mainframe",err:err,user:req.session})
-    })
-    
+        res.render("cart", {layout:"mainframe",user:req.session})
 })
 
 app.post("/login", (req, res) => {

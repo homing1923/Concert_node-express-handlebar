@@ -27,15 +27,8 @@
 
 </div>
 <div id="cartcontainer">
-<form id="{{_id}}" action="/deleteitemfromcart/{{_id}}" method="post">
-
     <h1>Cart</h1>
-
-
-    <p>Subtotal: {{this.subtotal}}</p>
-    <p>Tax:</p>
-    <hr>
-    <p>Total:</p>
-    </form>
-</div>
-</section>
+{{#each user}}
+<h1>{{user.cart.lessonname}}</h1>
+<
+{{/each}}
