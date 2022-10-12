@@ -235,6 +235,7 @@ app.post("/addcart/:id", (req,res) =>{
 })
 
 app.get("/cart", (req, res) => {
+    console.log(req.session);
     res.render("cart", {layout:"mainframe",user:req.session})
 })
 
@@ -303,7 +304,7 @@ app.post("/login", (req, res) => {
             if(req.session.isadmin){
                 return res.redirect("/manageclass");
             }else{
-                return res.render("cart",{layout:"mainframe",user:req.session});
+                return res.redirect("cart");
             }
         }).catch(err =>{
             res.render("login",{layout:"mainframe", err:err ,user:req.session});
@@ -324,11 +325,11 @@ app.get("/logout", (req, res) =>{
 })
 
 app.get("/deny", (req, res) =>{
-    res.status(403).render("deny", {layout:"mainframe",user:req.session});
+    res.status(403).render("deny", {layout:"mainframe", user:req.session});
 })
 
 app.use("/", (req,res) =>{
-    res.status(404).render("404",{layout:"mainframe", user:req.session})
+    res.status(404).render("404",{layout:"mainframe", user:req.session});
 })
 
 app.listen(HTTP_PORT, onServerStart)
