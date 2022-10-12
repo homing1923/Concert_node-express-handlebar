@@ -260,17 +260,27 @@ app.post("/deletecartitem/:lessonid", (req,res) =>{
 //         return newcart;
 //     })
 //     .then(cart =>{
+//         // usercarts.find({}).lean().exec()
+//         // .then(response =>{
+            
 //         for(eachcartitem in cart){
-//             const newcart = new usercarts({username:cart[eachcartitem]["username"],cart:cart[eachcartitem]["cart"]});
-//             newcart.save({})
-//             .then(response =>{
-//                 console.log(response);
-//             })
-//             .catch(err =>{
-//                 console.log(err);
-//             })
-//         }
-//     })
+//             // for (eachreponse in cart){
+//                 // if(cart[eachcartitem].username === response[eachreponse].username){
+//                 //     break;
+//                 // }
+//                 const newcart = new usercarts({username:cart[eachcartitem]["username"],cart:cart[eachcartitem]["cart"]});
+//                 newcart.save()
+//                 .then(response =>{
+//                     console.log(response);
+//                 })
+//                 .catch(err =>{
+//                     console.log(err);
+//                 })
+//             }
+//         // }
+
+//         })
+//     // })
 //     .catch(err =>{
 //         console.log(err);
 //     })
@@ -294,6 +304,7 @@ app.post("/login", (req, res) => {
     }
     users.findOne({username:usernameinput}).lean().exec()
     .then(response =>{
+        console.log(`User: ${response}`);
         if(response !== null){
             if(passwordinput === response.password){
                 req.session.userid = response._id;
@@ -305,10 +316,13 @@ app.post("/login", (req, res) => {
             const err = {err:"Incorrect login infomation provided"}
             res.render("login",{layout:"mainframe",user:req.session, err:err});
         }
+        return response;
+        
     })
     .then(
         usercarts.findOne({username:usernameinput}).lean().exec()
         .then(response =>{
+            console.log(`User cart: ${response}`);
             req.session.cart = response.cart;
             if(req.session.isadmin){
                 return res.redirect("/manageclass");

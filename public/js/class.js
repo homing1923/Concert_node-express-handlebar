@@ -1,4 +1,4 @@
-const lessonredirectbtn = document.getElementById("lessonredirectbtn");
+const lessonredirectbtn = document.getElementsByClassName("lessontoregisterbtn");
 const usercartitems = document.getElementsByClassName("cartitems");
 redirecttologin = () =>{
     window.location.href = "./login";
@@ -27,7 +27,9 @@ const checkregistered = () =>{
 }
 
 try {
-    lessonredirectbtn.addEventListener("click", redirecttologin);
+    for (each in lessonredirectbtn){
+        lessonredirectbtn[each].addEventListener("click", redirecttologin);
+    }
 } catch (error) {
     console.log(error);
 }

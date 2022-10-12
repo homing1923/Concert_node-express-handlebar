@@ -26,12 +26,13 @@
                 <input name="duration" value={{duration}} type="hidden">
                 <p name={{duration}} class="lessonduration">{{duration}} min</p>
             </div>
-        
+            {{#unless ../user.isadmin}}
             {{#if ../user.login}}
                 <button class="lessontoregisterbtn" type="submit">Book now</button>
             {{else}}
                 <button id="lessonredirectbtn" class="lessontoregisterbtn" type="button">Book now</button>
             {{/if}}
+            {{/unless}}
         </div>
     </form>
 {{/each}}
