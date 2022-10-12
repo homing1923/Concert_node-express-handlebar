@@ -238,15 +238,16 @@ app.get("/cart", (req, res) => {
     console.log(req.session);
     res.render("cart", {layout:"mainframe",user:req.session})
 })
-app.post("/deletecartitem/:id", (req,res) =>{
-    usercarts.deleteOne({id:req.params.id}).lean().exec()
+app.post("/deletecartitem/:lessonid", (req,res) =>{
+    usercarts.deleteOne({id:req.params.lessonid}).lean().exec()
     .then(response =>{
         res.status(200).redirect("/cart");
     })
     .catch(err =>{
-        res.status(500).redirect("/cart");
+        res.status(500).redirect("/manageclass");
     })
 })
+
 // app.get("/servermigrate", (req,res) =>{
 //     let newcart = [];
 //     users.find({}).lean().exec()
