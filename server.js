@@ -5,6 +5,7 @@ const expressHDB = require("express-handlebars");
 const mg = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const { response } = require("express");
 const HTTP_PORT = process.env.PORT || 3000;
 
 //Settings
@@ -113,8 +114,15 @@ app.post("/addcart/:id", (req,res) =>{
 })
 
 app.get("/cart", (req, res) => {
-    res.render("cart", {layout:"mainframe",user:req.session})
-});
+    lessons.find({}).lean().exec()
+    .then(response =>{
+    res.render("cart", {layout:"mainframe",user:req.session,data:response})
+    })
+    .catch(err=>{
+        res.status(500).render("cart",{layout:"mainframe",err:err,user:req.session})
+    })
+    
+})
 
 app.post("/login", (req, res) => {
     //1 verify empty
@@ -166,4 +174,4 @@ app.get("/deny", (req, res) =>{
     res.render("deny", {layout:"mainframe",user:req.session});
 })
 
-app.listen(HTTP_PORT, onServerStart);
+app.listen(HTTP_PORT, onServerStart)
