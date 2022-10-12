@@ -10,7 +10,7 @@
     }
 
 </style>
-
+{{#if user.cart}}
 <h1>Checkout</h1>
 <section class="cart-main">
 <div>
@@ -49,3 +49,8 @@
 </div>
 
 </section>  
+{{else}}
+
+<h1 class="tilteh1">There is nothing in cart</h1>
+
+{{/if}}

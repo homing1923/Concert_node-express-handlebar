@@ -8,5 +8,5 @@ const membership = (value) =>{
     }
 } 
     
-const durations = document.getElementsByClassName("duration").value
-document.getElementById("testing").innerText(`${durations}`)
+const durations = document.getElementsByClassName("duration").value;
+// document.getElementById("testing").innerText(`${durations}`);
