@@ -239,12 +239,12 @@ app.get("/cart", (req, res) => {
     res.render("cart", {layout:"mainframe",user:req.session})
 })
 app.post("/deletecartitem/:lessonid", (req,res) =>{
-    usercarts.deleteOne({id:req.params.lessonid}).lean().exec()
+    usercarts.updateOne({id:req.params.lessonid},{cart:req.session.cart}).lean().exec()
     .then(response =>{
         res.status(200).redirect("/cart");
     })
     .catch(err =>{
-        res.status(500).redirect("/manageclass");
+        res.status(500).redirect("/cart");
     })
 })
 
