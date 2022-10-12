@@ -1,3 +1,13 @@
-<script>
-    window.location.href = "/manageclass"
-</script>
+{{#if action}}
+{{#if action.success}}
+    {{> createsuccess action.success}}
+{{/if}}
+{{#if action.forbidden}}
+    {{> deny action.forbidden}}
+{{/if}}
+{{#if action.unauthorized}}
+    {{> deny action.unauthorized}}
+{{/if}}
+{{else}}
+    {{> redirect}}
+{{/if}}

@@ -5,7 +5,6 @@ const expressHDB = require("express-handlebars");
 const mg = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const { response } = require("express");
 const HTTP_PORT = process.env.PORT || 3000;
 
 //Settings
@@ -62,24 +61,39 @@ app.get("/class", (req, res) => {
 });
 
 app.get("/manageclass", (req,res) =>{
-    lessons.find({}).lean().exec()
-    .then(response =>{
-        res.status(200).render("lessonmanage",{layout:'mainframe', data:response, user:req.session});
-    })
-    .catch(err =>{
-        res.status(500).render("lessonmanage",{layout:'mainframe', err:err, user:req.session});
-    })
+    if(req.session.isadmin){
+        lessons.find({}).lean().exec()
+        .then(response =>{
+            return res.status(200).render("lessonmanage",{layout:'mainframe', data:response, user:req.session});
+        })
+        .catch(err =>{
+            return res.status(500).render("lessonmanage",{layout:'mainframe', err:err, user:req.session});
+        })
+    }
+    if(req.session.login){
+        return res.render("redirect",{layout:"mainframe", action:{"forbidden":"You have no permission to view this page"}, user:req.session});
+    }
+    return res.render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
+            
+
 })
 
 app.post("/manageclass", (req,res) =>{
-    const newlesson = new lessons({name:req.body.nameinput, instructor:req.body.instructor, duration:req.body.duration, fee:req.body.fee, img:req.body.img})
-    newlesson.save()
-    .then(response =>{
-        res.status(200).render("redirect",{layout:"mainframe"});
-    })
-    .catch(err =>{
-        res.status(500).render("redirect",{layout:"mainframe"});
-    })
+    if(req.session.isadmin){
+        const newlesson = new lessons({name:req.body.nameinput, instructor:req.body.instructor, duration:req.body.duration, fee:req.body.fee, img:req.body.img})
+        newlesson.save()
+        .then(response =>{
+            res.status(200).render("redirect",{layout:"mainframe", action:{"success":"Lesson Successfully created"}, user:req.session});
+        })
+        .catch(err =>{
+            return res.status(500).render("redirect",{layout:"mainframe", user:req.session});
+        })
+    }
+    if(req.session.login){
+        res.status(403).render("redirect",{layout:"mainframe", action:{"fobidden":"You have no permission to view this page"}, user:req.session});
+    }else{
+        return res.status(401).render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
+    }
 })
 
 app.post("/deleteclass/:id", (req,res) =>{
@@ -258,7 +272,11 @@ app.get("/logout", (req, res) =>{
 })
 
 app.get("/deny", (req, res) =>{
-    res.render("deny", {layout:"mainframe",user:req.session});
+    res.status(403).render("deny", {layout:"mainframe",user:req.session});
+})
+
+app.use("/", (req,res) =>{
+    res.status(404).render("404",{layout:"mainframe", user:req.session})
 })
 
 app.listen(HTTP_PORT, onServerStart)
