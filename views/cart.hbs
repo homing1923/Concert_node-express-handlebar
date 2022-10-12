@@ -36,7 +36,7 @@
     <h1>Cart</h1>
 {{#each user.cart}}
 
-        <form action="/deletecartitem/:{{lessonname}}" method="post">
+        <form action="/deletecartitem/:{{lessonid}}" method="post">
                 <p name={{lessonname}} class="lessonheader">{{lessonname}} with:
                 {{lessoninstructor}}</p>
                 <input name="duration" class="duration" value={{lessonduration}} type="hidden">
