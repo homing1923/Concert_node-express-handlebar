@@ -99,6 +99,10 @@ a:visited{
     background-color: #444E4A;
 }
 
+.Message{
+    
+}
+
 main{
     /* height: 100vh; */
     min-height: cal(100vh - 50px);
