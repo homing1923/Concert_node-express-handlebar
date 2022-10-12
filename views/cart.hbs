@@ -26,13 +26,16 @@
     <button >PAY</button>
 
 </div>
-<div>
+<div id="cartcontainer">
+<form id="{{_id}}" action="/deleteitemfromcart/{{_id}}" method="post">
+
     <h1>Cart</h1>
-    <p></p>
-    <hr>
+    
+
     <p>Subtotal: {{this.subtotal}}</p>
     <p>Tax:</p>
     <hr>
     <p>Total:</p>
+    </form>
 </div>
 </section>
