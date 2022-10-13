@@ -244,6 +244,7 @@ app.post("/deletecartitem/:lessonid", (req,res) =>{
             if(req.session.cart[i][eachitem] === req.params.lessonid){
                 req.session.cart.splice(i,1);
                 console.log(`after ${req.session.cart}`);
+                break;
             }
         }
     }
