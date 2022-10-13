@@ -27,7 +27,6 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }))
-
 //MongoDB schema
 const userschema = new mg.Schema({username:String,password:String,email:String,name:String,cart:Array,membership:Boolean,isadmin:Boolean});
 const lessonschema = new mg.Schema({name:String,instructor:String,duration:Number,img:String});
@@ -239,11 +238,21 @@ app.get("/cart", (req, res) => {
     res.render("cart", {layout:"mainframe",user:req.session})
 })
 app.post("/deletecartitem/:lessonid", (req,res) =>{
-    usercarts.updateOne({username:req.params.lessonid},{cart:req.session.cart}).lean().exec()
+    for (let i = 0; i < req.session.cart.length; i++){
+        for(eachitem in req.session.cart[i]){
+            if(req.session.cart[i][eachitem] === req.params.lessonid){
+                req.session.cart.splice(i,1);
+                console.log(`after ${req.session.cart}`);
+            }
+        }
+    }
+    usercarts.updateOne({username:req.session.username},{username:req.session.username,cart:req.session.cart}).lean().exec()
     .then(response =>{
+        console.log(response);
         res.status(200).redirect("/cart");
     })
     .catch(err =>{
+        console.log(err);
         res.status(500).redirect("/cart");
     })
 })
