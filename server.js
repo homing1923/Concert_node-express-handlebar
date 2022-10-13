@@ -5,6 +5,7 @@ const expressHDB = require("express-handlebars");
 const mg = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const { response } = require("express");
 const HTTP_PORT = process.env.PORT || 3000;
 
 //Settings
@@ -31,12 +32,12 @@ app.use(session({
 const userschema = new mg.Schema({username:String,password:String,email:String,name:String,cart:Array,membership:Boolean,isadmin:Boolean});
 const lessonschema = new mg.Schema({name:String,instructor:String,duration:Number,img:String});
 const usercartschema = new mg.Schema({username:String,cart:Array});
-const orderscheme = new mg.Schema({username:String, amount:Number, Tid:String, datetime:String});
+const orderschema = new mg.Schema({username:String, amount:Number, Tid:String, datetime:String});
  
 const lessons = mg.model("lessons", lessonschema);
 const users = mg.model("users", userschema);
 const usercarts = mg.model("usercarts", usercartschema);
-const orders = mg.model("orderscheme", orderscheme);
+const orders = mg.model("orders", orderschema);
 
 
 //Default listener
@@ -256,6 +257,16 @@ app.post("/deletecartitem/:lessonid", (req,res) =>{
         res.status(500).redirect("/cart");
     })
 })
+app.get("/vieworder",(req,res)=>{
+    orders.find({}).lean().exec()
+    .then(response=>{
+        res.render("allorder",{layout:"mainframe",order:response})
+    })
+    .catch(err=>{
+        res.status(500).redirect("/vieworder");
+    })
+
+})
 
 // app.get("/servermigrate", (req,res) =>{
 //     let newcart = [];
@@ -349,7 +360,19 @@ app.post("/login", (req, res) => {
     // res.render("index", {layout:"mainframe"});
 
 });
+app.get("/paymentconfirmation",(req,res)=>{
+    res.render("paymentconfirmation",{layout:"mainframe",order:req.session.orders})
+})
 
+app.post("/payment",(req,res) =>{
+    req.session.orders=[]
+    const neworder = new orders({username:req.session.user, amount:req.body.total, Tid:Math.random()+Date.now(), datetime:Date.now()})
+    neworder.save()
+    .then(response =>{
+        req.session.orders= response
+        res.status(200).redirect("/paymentconfirmation")
+    })
+})
 
 app.get("/logout", (req, res) =>{
     req.session.destroy();
