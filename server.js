@@ -316,14 +316,19 @@ app.post("/login", (req, res) => {
                     req.session.isadmin = response.isadmin;
                     req.session.login = true;
                     return response;
+                }else{
+                   return res.render("login",{layout:"mainframe",user:req.session, err:"Incorrect login infomation provided"});
                 }
             }else{
                 return res.render("login",{layout:"mainframe",user:req.session, err:"Incorrect login infomation provided"});
             }
             
         })
-        .then(response =>{
-            usercarts.findOne({username:response.username}).lean().exec()
+        .catch(err =>{
+            return res.render("login",{layout:"mainframe",user:req.session, err:"Incorrect login infomation provided"});
+        })
+        .then(userobj =>{
+            usercarts.findOne({username:userobj.username}).lean().exec()
             .then(cartres =>{
                 req.session.cart = cartres.cart;
                 if(req.session.isadmin){
