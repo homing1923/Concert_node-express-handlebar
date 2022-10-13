@@ -164,9 +164,6 @@ app.post("/signup", (req, res) => {
             return res.render("signup", {layout:"mainframe", err:errarray});
         }
     })
-    // .then(response =>{
-
-    // })
     .catch(err =>{
         console.log(err);
     })
@@ -384,13 +381,23 @@ app.post("/payment",(req,res) =>{
             return res.render("cart", {layout:"mainframe", user:req.session, err:errtext});
         }
         req.session.orders={};
-        const TransID = Math.random()+Date.now() * 10000;
+        const TransID = Math.round(Math.random()*10000000000);
         const timestamp = Date.now();
         const neworder = new orders({username:req.session.user, amount:req.body.total, Tid:TransID, datetime:timestamp})
         neworder.save()
         .then(response =>{
             req.session.orders= response;
-            res.status(200).redirect("/paymentconfirmation");
+            return response;
+        })
+        .then(orderobj =>{
+            usercarts.findOneAndUpdate({username:orderobj.username},{username:req.session.user, cart:[]})
+            .then(cartclearres =>{
+                req.session.cart = [];
+                res.status(200).redirect("/paymentconfirmation");
+            })
+            .catch(err =>{
+                res.status(500).redirect("/cart");
+            })
         })
     }else{
         return res.status(401).render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});

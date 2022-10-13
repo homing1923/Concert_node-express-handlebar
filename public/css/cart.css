@@ -1,12 +1,48 @@
 .cart-main{
     display: grid;
-    grid-template-columns: 25vw 20vw 10vw;
-    padding-left: 5vw;
+    grid-template-columns: 7fr 3fr;
+    padding-left: 7vw;
+    padding-right: 7vw;
     column-gap: 8vw;
-    border: 3px solid black;
-    padding-bottom: 8vh;
-    padding-top: 8vh;
+    /* border: 3px solid black; */
+    padding-bottom: 5vh;
+    padding-top: 1vh;
+    margin:3%;
 }
+.cart-left-container{
+    border: 10px solid #000000;
+    padding: 20px 20px;
+    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.6);
+}
+
+.cart-left-info-container{
+    border: 3px solid #00000060;
+    padding: 35px 35px;
+}
+
+.cartrows{
+    border: 3px solid black;
+    margin-bottom: 1vh;
+    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.4);
+
+}
+
+label{
+    padding-right: 20px;
+}
+
+input{
+    width: 90%;
+    padding: 5px 5px;
+    margin-bottom: 5px;
+}
+
+.yesnocontainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .hidden{
     display: none;
 }
@@ -22,7 +58,56 @@ button{
     border-radius: 20px;
     margin: 12px;
 }
+
+.removebtn{
+    background-color: #e853538c;
+    border: none;
+}
+
+.removebtn:hover{
+    background-color: #c21313bc;
+    color: white;
+}
+
+.radio{
+    width: 30px;
+    height: 30px;
+}
+
+#memberpassinput{
+    padding: 8px 15px;
+}
+
+.paybtn{
+    width: 90%;
+    padding: 2vh 5vw;
+    height: auto;
+    background: yellowgreen;
+    border: none;
+    font-size: 3em;
+    margin-top: 4vh;
+}
+.paybtn:hover{
+    background-color: #043d0cb3;
+    color: white;
+}
+
+#calculation{
+    display: grid;
+    grid-template-columns: 3fr 7fr;
+    border: 5px solid black;
+    margin: 0px 4vw;
+    font-size: 1.3em;
+}
+
 .calculation p{
     background-color: white;
     color: black;
+}
+
+#cartcontainer{
+    border: 10px solid black;
+    padding: 10px 3vw;
+    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.6);
+
 }

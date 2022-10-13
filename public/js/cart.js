@@ -36,9 +36,9 @@ const calculations = () =>{
         let total = subtotal + tax;
         document.getElementById("calculation").innerHTML = 
         (
-            `<p> Subtotal: $${subtotal} </p>
-            <p>Tax: $${tax}</p>
-            <p>Total: $${total}</p>
+            `<p> Subtotal: $</p><p>${subtotal} </p>
+            <p>Tax: $</p><p>${tax}</p>
+            <p>Total: $</p><p>${total}</p>
             <input type="hidden" name="total" value="${total}">
             `
         );       

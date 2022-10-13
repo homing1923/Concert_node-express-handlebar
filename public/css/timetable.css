@@ -42,6 +42,11 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.3);
 }
 
+.lessontoregisterbtn:hover{
+    background-color: #484751;
+    color: white;
+}
+
 .lessonregisteredbtn{
     background-color: #555555;
     color: white;

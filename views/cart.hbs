@@ -3,7 +3,7 @@
 
 {{#if user.cart}}
 <form action="/payment" method="post">
-    <h1>Checkout</h1>
+    <h1 class="tilteh1">Checkout</h1>
         <p class="inputerrortext">
             {{#if err}}
                 {{#each err}}
@@ -12,45 +12,46 @@
             {{/if}}
     </p>
 <section class="cart-main">
-<div>
-    <p>Customer details</p>
-    <input type="text" name="name" id="fname" placeholder="Enter your name " required>
-    <input type="email" name="email" id="email" placeholder="Enter your email" required>
-    <p>WOULD YOU LIKE TO JOIN AS A MEMBER</p>
-    <p> Members get unlimited classes, for a low monthly price.<p>
-        <input type="radio" class="radio" name="membership"  value="yes" id="yes" checked><label for="membership">Yes</label>
-        <input type="radio" class="radio" name="membership"  value="no" id="no"><label for="membership">No</label>
-        <select name="membershipPass" id="memberpassinput">
-            <option value="monthly">Monthly pass</option>
-            <option value="yearly">Yearly Pass</option>
-        </select>
+    <div class="cart-left-container">
+        <h1 class="tilteh1">Checkout Info </h1>
+        <div class="cart-left-info-container">
+        <p class="tilteh1">Customer details</p>
+        <input type="text" name="name" id="fname" placeholder="Enter your name " required>
+        <input type="email" name="email" id="email" placeholder="Enter your email" required>
+        <p class="tilteh1">WOULD YOU LIKE TO JOIN AS A MEMBER</p>
+        <p> Members get unlimited classes, for a low monthly price.</p>
+            <div class="yesnocontainer">
+                <input type="radio" class="radio" name="membership"  value="yes" id="yes" checked><label for="membership">Yes</label>
+                <input type="radio" class="radio" name="membership"  value="no" id="no"><label for="membership">No</label>
+                <select name="membershipPass" id="memberpassinput">
+                    <option value="monthly">Monthly pass</option>
+                    <option value="yearly">Yearly Pass</option>
+                </select>
+            </div>
+        <p class="tilteh1"> PAYMENT INFORMATION </p>
+        <input type="text" name="creditcardnumber" placeholder="Enter Credit card number" maxlength="16" required>
+        <input type="text" name="creditcardexpiry" placeholder="MMYY" maxlength="4" required>
+        <p class="tilteh1"> PAYMENT AMOUNT</p>
 
-    <p> PAYMENT INFORMATION </p>
-    <input type="text" name="creditcardnumber" placeholder="Enter Credit card number" maxlength="16" required>
-    <input type="text" name="creditcardexpiry" placeholder="MMYY" maxlength="4" required>
-    <button type="submit"> PAY</button>
-    </form>
+        <div id="calculation"></div>
 
-</div>
-<div id="cartcontainer">
-    <h1>Cart</h1>
-{{#each user.cart}}
-
-        <form action="/deletecartitem/{{lessonid}}" method="post">
-                <p name={{lessonname}} class="lessonheader">{{lessonname}} with:
-                {{lessoninstructor}}</p>
-                <input name="duration" class="duration" value={{lessonduration}} type="hidden">
-                <p name={{lessonduration}} class="lessonduration">duration: {{lessonduration}} min</p>
-                <button type="submit">Remove</button>
-                <p id="testing"></p>
-        </form>
-
-{{/each}}
-</div>
-<div id="calculation"></div>
-
-
-
+        <button class="paybtn" type="submit"> PAY</button>
+</form>
+        </div>
+    </div>
+    <div id="cartcontainer">
+        <h1 class="tilteh1">Cart</h1>
+            {{#each user.cart}}
+                <form action="/deletecartitem/{{lessonid}}" method="post" class="cartrows">
+                        <p name={{lessonname}} class="lessonheader">{{lessonname}} with:
+                        {{lessoninstructor}}</p>
+                        <input name="duration" class="duration" value={{lessonduration}} type="hidden">
+                        <p name={{lessonduration}} class="lessonduration">duration: {{lessonduration}} min</p>
+                        <button class="removebtn" type="submit">Remove</button>
+                        <p id="testing"></p>
+                </form>
+            {{/each}}
+    </div>
 </section>  
 {{else}}
 
