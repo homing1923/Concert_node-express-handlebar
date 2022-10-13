@@ -1,7 +1,7 @@
 main{
     background-color: #d2ccc8;
     background-blend-mode:darken;
-    background-image: url("https://bl6pap004files.storage.live.com/y4mGHZCNgI53uWqSBISbqVwMsfYqEWs4PAx-o9c8e_PvZ09kYFH4e9lsLlk5UjtpqE0w99ErSL7KSjQWNHDPmuoYKU_OXQvXxIV2RHCvNrVY6inEKb2NLXP5PyiALb3HQXxfZ6spYiFhAu2i1iU2EMPF6rkSV-eI9jM8ee6rKbEZTYNQcd0o5hqeeRCyjiEy9fw?width=2112&height=1152&cropmode=none");
+    background-image: url("https://images.unsplash.com/photo-1558611848-73f7eb4001a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2071&q=80");
     background-repeat: no-repeat; 
 }
 
@@ -11,13 +11,13 @@ main{
     background-color: #FFFFFF82;
     margin-bottom: 10px;
     font-weight: bold;
-    border-top: 15px solid #382815;
+    
 }
 
 .indexh2{
     font-size: 2.4em;
     padding: 3% 0px;
-    background-color: #FFFFFF82;
+    background-color: #c8c8c871;
 
 }
 
@@ -34,7 +34,7 @@ main{
 }
 
 .seeclassbtn:hover{
-    background-color: aquamarine;
+    background-color: rgba(0, 74, 111, 0.322);
     border: 8px solid black;
     cursor:pointer;
 }
