@@ -1,11 +1,13 @@
-<style>
+{{#if user.isadmin}}
+<input type="hidden" id="admincheck" value="true">
+{{/if}}
+<script src="/js/vieworder.js" defer></script>
 
-</style>
 <h1>Orders</h1>
 {{#each order}}
-<div id="ordercontainer">
-<p>USER: {{username}}</p>
-<p>Order Amount: {{amount}}</p>
-<p>Transaction ID: {{Tid}}</p>
+<div class="orderoutercontainer">
+    <p>USER: {{username}}</p>
+    <p>Order Amount: ${{amount}}</p>
+    <p>Transaction ID: {{Tid}}</p>
 </div>
 {{/each}}   

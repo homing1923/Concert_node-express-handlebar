@@ -134,6 +134,16 @@ main{
     padding-bottom: 15%;
 }
 
+.orderoutercontainer{
+    padding: 2vh;
+    border: 2px solid black;
+    text-align: left;
+}
+
+.ordercontiner{
+    margin-bottom: 20px;
+}
+
 footer{
     background-color: #000000;
     color: #ffffff;
