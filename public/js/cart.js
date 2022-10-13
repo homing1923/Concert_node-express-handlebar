@@ -1,3 +1,9 @@
+//const
+const durations = document.getElementsByClassName("duration");
+const monthly = document.getElementById("monthcost").value;
+const yearly = document.getElementById("yearcost").value;
+
+//functions
 const membership = () =>{
     if (document.getElementById("no").checked === true){
         document.getElementById("memberpassinput").setAttribute("class","hidden");
@@ -7,18 +13,15 @@ const membership = () =>{
     }
 } 
 
-const durations = document.getElementsByClassName("duration");
-const monthly = document.getElementById("monthcost").value;
-const yearly = document.getElementById("yearcost").value;
-
-
 const calculations = () =>{
     if(durations.length > 0){
         let subtotal = 0;
         let totalduration = 0;
+        let tax = 0;
+        let total = 0;
         if (document.getElementById("no").checked){
             for(i=0;i<durations.length;i++){
-                totalduration += parseInt(durations[i].value);
+                totalduration += parseInt(durations[i].value.slice(1,durations[i].value.length));
                 console.log(totalduration);
             }
             subtotal = Math.round(totalduration*0.58*100,2)/100;
@@ -32,19 +35,21 @@ const calculations = () =>{
             }
         }
     
-        let tax = Math.round(subtotal*0.13*100, 2) / 100;
-        let total = subtotal + tax;
+        tax = subtotal*0.13;
+        total = subtotal + tax;
         document.getElementById("calculation").innerHTML = 
         (
-            `<p> Subtotal: $</p><p>${subtotal} </p>
-            <p>Tax: $</p><p>${tax}</p>
-            <p>Total: $</p><p>${total}</p>
-            <input type="hidden" name="total" value="${total}">
+            `<p class="calc-left"> Subtotal: </p><p class="calc-right">$${subtotal.toFixed(2)} </p>
+            <p class="calc-left">Tax: </p><p class="calc-right">$${tax.toFixed(2)}</p>
+            <p class="calc-left">Total: </p><p class="calc-right">$${total.toFixed(2)}</p>
+            <input type="hidden" name="total" value="$${total.toFixed(2)}">
             `
         );       
     }
 
 }
+
+//event listeners
 if(document.getElementById("no") !== null && document.getElementById("yes") !== null)
 {
     document.getElementById("no").addEventListener("click",membership);

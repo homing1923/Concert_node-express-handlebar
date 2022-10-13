@@ -3,11 +3,14 @@
 {{/if}}
 <script src="/js/vieworder.js" defer></script>
 
-<h1>Orders</h1>
-{{#each order}}
-<div class="orderoutercontainer">
-    <p>USER: {{username}}</p>
-    <p>Order Amount: ${{amount}}</p>
-    <p>Transaction ID: {{Tid}}</p>
+<h1 class="tilteh1">Orders</h1>
+<div class="all-order-container">
+    {{#each order}}
+    <div class="orderoutercontainer">
+        <p>USER: {{username}}</p>
+        <p>Order Amount: {{amount}}</p>
+        <p>Transaction ID: {{Tid}}</p>
+        <p>Timestamp: {{datetime}}</p>
+    </div>
+    {{/each}}   
 </div>
-{{/each}}   

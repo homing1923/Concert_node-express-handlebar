@@ -51,7 +51,7 @@ a:visited{
 .tilteh1{
     margin: 20px 20px;
     padding: 20px 20px;
-    background-color: #FFF9F1;
+    background-color: #f3dbbb;
     border: 3px solid black;
     box-shadow: 0 8px 8px 0 rgba(0,0,0,0.2);
 }
@@ -101,10 +101,6 @@ a:visited{
     background-color: #444E4A;
 }
 
-.Message{
-    
-}
-
 main{
     /* height: 100vh; */
     min-height: cal(100vh - 50px);
@@ -138,6 +134,7 @@ main{
     padding: 2vh;
     border: 2px solid black;
     text-align: left;
+    margin: 1vh;
 }
 
 .ordercontiner{
@@ -154,4 +151,31 @@ footer{
 
 .ordercontainer div{
     border: 2px solid black;
+}
+
+.all-order-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.user-order-container{
+    border: 10px solid #000000;
+    padding: 8vh 20px;
+    margin: 1vh 16vh;
+    box-shadow: 0 8px 8px 0 rgb(0 0 0 / 60%);
+}
+
+.user-order-info-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 6vh;
+}
+
+.user-order-left{
+    text-align: left;
+}
+
+.user-order-right{
+    text-align: center;
+    padding-bottom: 5vh;
 }

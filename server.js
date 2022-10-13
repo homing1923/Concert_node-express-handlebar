@@ -34,7 +34,7 @@ app.use(session({
 const userschema = new mg.Schema({username:String,password:String,email:String,name:String,cart:Array,membership:Boolean,isadmin:Boolean});
 const lessonschema = new mg.Schema({name:String,instructor:String,duration:Number,img:String});
 const usercartschema = new mg.Schema({username:String,cart:Array});
-const orderschema = new mg.Schema({username:String, amount:Number, Tid:String, datetime:String});
+const orderschema = new mg.Schema({username:String, amount:String, Tid:String, datetime:String});
  
 const lessons = mg.model("lessons", lessonschema);
 const users = mg.model("users", userschema);
@@ -67,11 +67,9 @@ app.get("/class", (req, res) => {
     .catch(err =>{
         res.status(500).render("timetable",{layout:'mainframe', err:err, user:req.session});
     })
-    // res.render("timetable", {layout:"mainframe"})
 });
 
-//Class Management
-
+//lesson Management
 app.get("/manageclass", (req,res) =>{
     if(req.session.isadmin){
         lessons.find({}).lean().exec()
@@ -89,6 +87,7 @@ app.get("/manageclass", (req,res) =>{
 
 })
 
+//Gen lesson
 app.post("/manageclass", (req,res) =>{
     if(req.session.isadmin){
         const newlesson = new lessons({name:req.body.nameinput, instructor:req.body.instructor, duration:req.body.duration, fee:req.body.fee, img:req.body.img})
@@ -107,6 +106,7 @@ app.post("/manageclass", (req,res) =>{
     }
 })
 
+//delete lesson
 app.post("/deleteclass/:id", (req,res) =>{
     if(req.session.isadmin){
         lessons.deleteOne({_id:req.params.id}).lean().exec()
@@ -120,12 +120,12 @@ app.post("/deleteclass/:id", (req,res) =>{
 })
 
 
-//Sign up
-
+//Sign up page
 app.get("/signup", (req, res) => {
     res.render("signup", {layout:"mainframe",user:req.session});
 });
 
+//post sign up data
 app.post("/signup", (req, res) => {
     const usernameinput = req.body.signupname;
     const signuppassword = req.body.signuppassword;
@@ -154,7 +154,8 @@ app.post("/signup", (req, res) => {
         console.log(errarray);
         return res.render("signup", {layout:"mainframe", err:errarray});
     }
-    let useranotavaliable = true;
+
+    //no err then find one check dulp
     users.findOne({username:usernameinput}).lean().exec()
     .then(response =>{
         if(response === null){
@@ -172,6 +173,7 @@ app.post("/signup", (req, res) => {
         return res.render("signup", {layout:"mainframe", err:errarray});
     }
 
+    //no dulp then make new user obj on db
     const newuser = new users({username:usernameinput,password:signuppassword,email:emailinput,name:"",membership:false,isadmin:false})
     newuser.save()
     .then(response =>{
@@ -182,6 +184,7 @@ app.post("/signup", (req, res) => {
         req.session.login = true;
     })
     .then(()=>{
+        //make new cart obj on db
         const newusercart = new usercarts({username:usernameinput, cart:[]});
         newusercart.save()
         .then(response =>{
@@ -201,8 +204,7 @@ app.post("/signup", (req, res) => {
 
 });
 
-//Check username api
-
+//Check username avaliable api
 app.post("/api/v0/usercheck/:username", (req,res)=>{
     if (req.params.username !== undefined || req.params.username.trim() !== ""){
         const usernameinput = req.params.username;
@@ -219,8 +221,7 @@ app.post("/api/v0/usercheck/:username", (req,res)=>{
     }
 })
 
-//Cart related
-
+//Add lesson to Cart 
 app.post("/addcart/:id", (req,res) =>{
     if(req.session.login){
         let newitem = {lessonid:req.params.id, lessonimg: req.body.img, lessonname: req.body.name, lessoninstructor: req.body.instructor, lessonduration: req.body.duration};
@@ -237,6 +238,7 @@ app.post("/addcart/:id", (req,res) =>{
     }
 })
 
+//get cart item from session when client to cart page
 app.get("/cart", (req, res) => {
     if(req.session.login){
         res.render("cart", {layout:"mainframe",user:req.session, monthcost:monthcost, yearcost:yearcost});
@@ -247,9 +249,9 @@ app.get("/cart", (req, res) => {
 })
 
 //Delete cart items from server
-
 app.post("/deletecartitem/:lessonid", (req,res) =>{
     if(req.session.login){
+        //loop to find obj
         for (let i = 0; i < req.session.cart.length; i++){
             for(eachitem in req.session.cart[i]){
                 if(req.session.cart[i][eachitem] === req.params.lessonid){
@@ -258,6 +260,8 @@ app.post("/deletecartitem/:lessonid", (req,res) =>{
                 }
             }
         }
+
+        //
         usercarts.updateOne({username:req.session.username},{username:req.session.username,cart:req.session.cart}).lean().exec()
         .then(response =>{
             console.log(response);
@@ -272,6 +276,7 @@ app.post("/deletecartitem/:lessonid", (req,res) =>{
     }
 })
 
+//admin view all orders
 app.get("/vieworder",(req,res)=>{
     if(req.session.isadmin){
         orders.find({}).lean().exec()
@@ -290,23 +295,29 @@ app.get("/vieworder",(req,res)=>{
 
 })
 
-//Login
-
+//Login page
 app.get("/login", (req, res) => {
     res.render("login", {layout:"mainframe",user:req.session});
 });
 
+//dueling with login info
 app.post("/login", (req, res) => {
+
+    //get data from browser
     let usernameinput = req.body.loginname;
     let passwordinput = req.body.loginpassword;
+
+    //empty check
     if (usernameinput === undefined || usernameinput.trim() === ""){
         return  res.render("login",{layout:"mainframe",user:req.session, err:"Username cannot be empty"})
     }else if(passwordinput === undefined || usernameinput.trim() === ""){
         return  res.render("login",{layout:"mainframe",user:req.session, err:"Password cannot be empty"})
     }else{
+
+        //db find one
         users.findOne({username:usernameinput}).lean().exec()
         .then(response =>{
-            console.log(`User: ${response}`);
+            //if user found, verify password, password ok, store data to session
             if(response !== null){
                 if(passwordinput === response.password){
                     req.session.userid = response._id;
@@ -326,8 +337,11 @@ app.post("/login", (req, res) => {
             return res.render("login",{layout:"mainframe",user:req.session, err:"Incorrect login infomation provided"});
         })
         .then(userobj =>{
+            //also need to retrievig the usercart obj
             usercarts.findOne({username:userobj.username}).lean().exec()
             .then(cartres =>{
+
+                //then put in session
                 req.session.cart = cartres.cart;
                 if(req.session.isadmin){
                     return res.redirect("/manageclass");
@@ -344,6 +358,7 @@ app.post("/login", (req, res) => {
     }
 });
 
+//payment confirm page
 app.get("/paymentconfirmation",(req,res)=>{
     if(req.session.login){
         res.render("paymentconfirmation",{layout:"mainframe",order:req.session.orders, user:req.session});
@@ -352,13 +367,16 @@ app.get("/paymentconfirmation",(req,res)=>{
     }
 })
 
+//pay botton click to submit order
 app.post("/payment",(req,res) =>{
     if(req.session.login){
+        //form data retrieve
         const usernameinput = req.body.name;
         const emailinput = req.body.email;
         const cardnumberinput = req.body.creditcardnumber;
         const creditcardexpiryinput = req.body.creditcardexpiry;
         let errtext = [];
+        //err check
         if(isempty(usernameinput)){
             errtext.push(`Name cannot be empty`);
         }
@@ -380,10 +398,12 @@ app.post("/payment",(req,res) =>{
         if(errtext.length > 0){
             return res.render("cart", {layout:"mainframe", user:req.session, err:errtext});
         }
+
+        //clear cart, gen new order and save to db
         req.session.orders={};
         const TransID = Math.round(Math.random()*10000000000);
-        const timestamp = Date.now();
-        const neworder = new orders({username:req.session.user, amount:req.body.total, Tid:TransID, datetime:timestamp})
+        const timestamp = new Date();
+        const neworder = new orders({username:req.session.user, amount:req.body.total, Tid:TransID, datetime:timestamp.toString().slice(0,34)})
         neworder.save()
         .then(response =>{
             req.session.orders= response;
@@ -413,7 +433,7 @@ const isempty = (input) =>{
     }
 }
 
-
+//log out destroy session
 app.get("/logout", (req, res) =>{
     if(req.session.login){
         req.session.destroy();
@@ -423,6 +443,7 @@ app.get("/logout", (req, res) =>{
     }
 })
 
+//un auth handling
 app.get("/deny", (req, res) =>{
     res.status(403).render("deny", {layout:"mainframe", user:req.session});
 })

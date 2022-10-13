@@ -57,6 +57,7 @@
 
 .lessonregisteredbar{
     background-color: yellowgreen;
+    margin: 0px 1vh;
 }
 
 .lessonimg{
@@ -102,3 +103,4 @@
 .managebtncontainer button{
     width: 75%;
 }
+

@@ -1,13 +1,13 @@
 .cart-main{
     display: grid;
     grid-template-columns: 7fr 3fr;
-    padding-left: 7vw;
-    padding-right: 7vw;
-    column-gap: 8vw;
+    padding-left: 6vw;
+    padding-right: 6vw;
+    column-gap: 5vw;
     /* border: 3px solid black; */
     padding-bottom: 5vh;
     padding-top: 1vh;
-    margin:3%;
+    margin: 3%;
 }
 .cart-left-container{
     border: 10px solid #000000;
@@ -18,6 +18,14 @@
 .cart-left-info-container{
     border: 3px solid #00000060;
     padding: 35px 35px;
+}
+
+.calc-left{
+    text-align: left;
+}
+
+.calc-right{
+    text-align: right;
 }
 
 .cartrows{
@@ -110,4 +118,16 @@ button{
     padding: 10px 3vw;
     box-shadow: 0 8px 8px 0 rgba(0,0,0,0.6);
 
+}
+
+.explorebtn{
+    height: auto;
+    width: auto;
+    padding: 1.5vw 9vw;
+}
+
+.explorebtn:hover{
+    background-color: rgba(0, 74, 111, 0.322);
+    /* border: 8px solid black; */
+    cursor:pointer;
 }

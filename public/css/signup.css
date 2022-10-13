@@ -1,7 +1,7 @@
 .signupform{
     display: grid;
     border: 10px solid #AFB9B5;
-    margin: 10% 30%;
+    margin: 3vh 15vw;
     padding: 30px 30px;
     text-align: center;
 }

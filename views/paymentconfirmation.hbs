@@ -1,6 +1,11 @@
-<h1>Order Confirmation</h1>
-<div>
-<p>USER: {{order.username}}</p>
-<p>Order Amount: ${{order.amount}}</p>
-<p>Transaction ID: {{order.Tid}}</p>
+<h1 class="tilteh1">Order Confirmation</h1>
+<div class="user-order-container">
+    <h1>Thankyou for your purchase</h1>
+    <div class="user-order-info-container">
+        <p class="user-order-left">USER: </p><p class="user-order-right">{{order.username}}</p>
+        <p class="user-order-left">Order Amount: </p><p class="user-order-right">{{order.amount}}</p>
+        <p class="user-order-left">Transaction ID: </p><p class="user-order-right">{{order.Tid}}</p>
+        <p class="user-order-left">Date: </p><p class="user-order-right">{{order.datetime}}</p>
+    </div>
+
 </div>
