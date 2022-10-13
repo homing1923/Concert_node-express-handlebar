@@ -242,7 +242,7 @@ app.post("/addcart/:id", (req,res) =>{
 
 app.get("/cart", (req, res) => {
     if(req.session.login){
-        return res.render("cart", {layout:"mainframe",user:req.session, monthcost:monthcost, yearcost:yearcost});
+        res.render("cart", {layout:"mainframe",user:req.session, monthcost:monthcost, yearcost:yearcost});
     }else{
         return res.render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
     }
@@ -274,6 +274,7 @@ app.post("/deletecartitem/:lessonid", (req,res) =>{
         return res.status(401).render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
     }
 })
+
 app.get("/vieworder",(req,res)=>{
     if(req.session.isadmin){
         orders.find({}).lean().exec()
@@ -284,7 +285,7 @@ app.get("/vieworder",(req,res)=>{
             return res.status(500).redirect("/vieworder");
         })
     }else if(req.session.login){
-        return res.status(403).render("redirect",{layout:"mainframe", action:{"fobidden":"You have no permission to view this page"}, user:req.session});
+        res.status(403).render("redirect",{layout:"mainframe", action:{"fobidden":"You have no permission to view this page"}, user:req.session});
     }else{
         return res.status(401).render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
     }

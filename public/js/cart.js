@@ -20,7 +20,6 @@ const calculations = () =>{
             for(i=0;i<durations.length;i++){
                 totalduration += parseInt(durations[i].value);
                 console.log(totalduration);
-    
             }
             subtotal = Math.round(totalduration*0.58*100,2)/100;
         }
@@ -37,9 +36,9 @@ const calculations = () =>{
         let total = subtotal + tax;
         document.getElementById("calculation").innerHTML = 
         (
-            `<p> Subtotal: ${subtotal} </p>
-            <p>Tax: ${tax}</p>
-            <p>Total: ${total}</p>
+            `<p> Subtotal: $${subtotal} </p>
+            <p>Tax: $${tax}</p>
+            <p>Total: $${total}</p>
             <input type="hidden" name="total" value="${total}">
             `
         );       
