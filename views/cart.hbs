@@ -9,9 +9,15 @@
         column-gap: 20px;
         border: 3px solid black;
     }
-
+    .hidden{
+        display: none;
+    }
+    .unhidden{
+        display: inline-block;
+    }
 </style>
 {{#if user.cart}}
+<form action="/payment" method="post">
 <h1>Checkout</h1>
 <section class="cart-main">
 <div>
@@ -20,8 +26,8 @@
     <input type="email" name="email" id="email" placeholder="Enter your email">
     <p>WOULD YOU LIKE TO JOIN AS A MEMBER</p>
     <p> Members get unlimited classes, for a low monthly price.<p>
-        <input type="radio" name="membership" checked value="yes" id="yes"><label for="membership">Yes</label>
-        <input type="radio" name="membership"  value="no" onclick="membership(no)"><label for="membership">No</label>
+        <input type="radio" class="radio" name="membership"  value="yes" id="yes"><label for="membership">Yes</label>
+        <input type="radio" class="radio" name="membership"  value="no" id="no"><label for="membership">No</label>
         <select name="membershipPass" id="memberpassinput">
             <option value="monthly">Monthly pass</option>
             <option value="yearly">Yearly Pass</option>
@@ -30,7 +36,8 @@
     <p> PAYMENT INFORMATION </p>
     <input type="text" placeholder="Enter Credit card number">
     <input type="text" placeholder="Enter expiry">
-    <button>PAY</button>
+    <button type="submit"> PAY</button>
+    </form>
 
 </div>
 <div id="cartcontainer">
@@ -47,8 +54,9 @@
         </form>
 
 {{/each}}
-</div>
 <div id="calculation"></div>
+</div>
+
 
 </section>  
 {{else}}
