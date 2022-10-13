@@ -6,6 +6,7 @@ const mg = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const { response } = require("express");
+const e = require("express");
 const HTTP_PORT = process.env.PORT || 3000;
 
 //Settings
@@ -28,6 +29,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }))
+
 //MongoDB schema
 const userschema = new mg.Schema({username:String,password:String,email:String,name:String,cart:Array,membership:Boolean,isadmin:Boolean});
 const lessonschema = new mg.Schema({name:String,instructor:String,duration:Number,img:String});
@@ -39,6 +41,9 @@ const users = mg.model("users", userschema);
 const usercarts = mg.model("usercarts", usercartschema);
 const orders = mg.model("orders", orderschema);
 
+//const monthly and yearly cost
+const yearcost = 900;
+const monthcost = 75;
 
 //Default listener
 function onServerStart() {
@@ -103,13 +108,15 @@ app.post("/manageclass", (req,res) =>{
 })
 
 app.post("/deleteclass/:id", (req,res) =>{
-    lessons.deleteOne({_id:req.params.id}).lean().exec()
-    .then(response =>{
-        res.status(200).redirect("/manageclass");
-    })
-    .catch(err =>{
-        res.status(500).redirect("/manageclass");
-    })
+    if(req.session.isadmin){
+        lessons.deleteOne({_id:req.params.id}).lean().exec()
+        .then(response =>{
+            res.status(200).redirect("/manageclass");
+        })
+        .catch(err =>{
+            res.status(500).redirect("/manageclass");
+        })
+    }
 })
 
 
@@ -176,7 +183,6 @@ app.post("/signup", (req, res) => {
         req.session.isadmin = response.isadmin;
         req.session.cart = response.cart;
         req.session.login = true;
-        // return res.redirect("/cart");
     })
     .then(()=>{
         const newusercart = new usercarts({username:usernameinput, cart:[]});
@@ -219,93 +225,72 @@ app.post("/api/v0/usercheck/:username", (req,res)=>{
 //Cart related
 
 app.post("/addcart/:id", (req,res) =>{
-    console.log(req.body);
-    console.log(req.session);
-    let newitem = {lessonid:req.params.id, lessonimg: req.body.img, lessonname: req.body.name, lessoninstructor: req.body.instructor, lessonduration: req.body.duration};
-    req.session.cart.push(newitem);
-    usercarts.updateOne({username:req.session.user},{cart:req.session.cart}).lean().exec()
-    .then(response =>{
-        console.log(response);
-        return res.status(200).redirect("/cart");
-    })
-    .catch(err=>{
-        console.log(err);
-        return res.status(500).redirect("/");
-    })
+    if(req.session.login){
+        let newitem = {lessonid:req.params.id, lessonimg: req.body.img, lessonname: req.body.name, lessoninstructor: req.body.instructor, lessonduration: req.body.duration};
+        req.session.cart.push(newitem);
+        usercarts.updateOne({username:req.session.user},{cart:req.session.cart}).lean().exec()
+        .then(response =>{
+            return res.status(200).redirect("/cart");
+        })
+        .catch(err=>{
+            return res.status(500).redirect("/");
+        })
+    }else{
+        return res.render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
+    }
 })
 
 app.get("/cart", (req, res) => {
-    console.log(req.session);
-    res.render("cart", {layout:"mainframe",user:req.session})
+    if(req.session.login){
+        return res.render("cart", {layout:"mainframe",user:req.session, monthcost:monthcost, yearcost:yearcost});
+    }else{
+        return res.render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
+    }
+    
 })
+
+//Delete cart items from server
+
 app.post("/deletecartitem/:lessonid", (req,res) =>{
-    for (let i = 0; i < req.session.cart.length; i++){
-        for(eachitem in req.session.cart[i]){
-            if(req.session.cart[i][eachitem] === req.params.lessonid){
-                req.session.cart.splice(i,1);
-                console.log(`after ${req.session.cart}`);
-                break;
+    if(req.session.login){
+        for (let i = 0; i < req.session.cart.length; i++){
+            for(eachitem in req.session.cart[i]){
+                if(req.session.cart[i][eachitem] === req.params.lessonid){
+                    req.session.cart.splice(i,1);
+                    break;
+                }
             }
         }
+        usercarts.updateOne({username:req.session.username},{username:req.session.username,cart:req.session.cart}).lean().exec()
+        .then(response =>{
+            console.log(response);
+            return res.status(200).redirect("/cart");
+        })
+        .catch(err =>{
+            console.log(err);
+            return res.status(500).redirect("/cart");
+        })
+    }else{
+        return res.status(401).render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
     }
-    usercarts.updateOne({username:req.session.username},{username:req.session.username,cart:req.session.cart}).lean().exec()
-    .then(response =>{
-        console.log(response);
-        return res.status(200).redirect("/cart");
-    })
-    .catch(err =>{
-        console.log(err);
-        return res.status(500).redirect("/cart");
-    })
 })
 app.get("/vieworder",(req,res)=>{
-    orders.find({}).lean().exec()
-    .then(response=>{
-        return res.render("allorder",{layout:"mainframe",order:response, user:req.session})
-    })
-    .catch(err=>{
-        return res.status(500).redirect("/vieworder");
-    })
+    if(req.session.isadmin){
+        orders.find({}).lean().exec()
+        .then(response=>{
+            return res.render("allorder",{layout:"mainframe",order:response, user:req.session})
+        })
+        .catch(err=>{
+            return res.status(500).redirect("/vieworder");
+        })
+    }else if(req.session.login){
+        return res.status(403).render("redirect",{layout:"mainframe", action:{"fobidden":"You have no permission to view this page"}, user:req.session});
+    }else{
+        return res.status(401).render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
+    }
+
 
 })
-
-// app.get("/servermigrate", (req,res) =>{
-//     let newcart = [];
-//     users.find({}).lean().exec()
-//     .then(response =>{
-//         console.log(response);
-//         for (eachuser in response){
-//             newcart.push({"username":response[eachuser].username,"cart":response[eachuser].cart});
-//         }
-//         console.log(newcart);
-//         return newcart;
-//     })
-//     .then(cart =>{
-//         // usercarts.find({}).lean().exec()
-//         // .then(response =>{
-            
-//         for(eachcartitem in cart){
-//             // for (eachreponse in cart){
-//                 // if(cart[eachcartitem].username === response[eachreponse].username){
-//                 //     break;
-//                 // }
-//                 const newcart = new usercarts({username:cart[eachcartitem]["username"],cart:cart[eachcartitem]["cart"]});
-//                 newcart.save()
-//                 .then(response =>{
-//                     console.log(response);
-//                 })
-//                 .catch(err =>{
-//                     console.log(err);
-//                 })
-//             }
-//         // }
-
-//         })
-//     // })
-//     .catch(err =>{
-//         console.log(err);
-//     })
-// })
 
 //Login
 
@@ -314,68 +299,115 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    //1 verify empty
-    //2 verify space only .trim() === ""
     let usernameinput = req.body.loginname;
     let passwordinput = req.body.loginpassword;
     if (usernameinput === undefined || usernameinput.trim() === ""){
-        return res.send(`<script>alert("Username cannot be empty"; )</script>`);
+        return  res.render("login",{layout:"mainframe",user:req.session, err:"Username cannot be empty"})
     }else if(passwordinput === undefined || usernameinput.trim() === ""){
-        return res.send(`<script>alert("Password cannot be empty")</script>`);
-    }
-    users.findOne({username:usernameinput}).lean().exec()
-    .then(response =>{
-        console.log(`User: ${response}`);
-        if(response !== null){
-            if(passwordinput === response.password){
-                req.session.userid = response._id;
-                req.session.user = response.username;
-                req.session.isadmin = response.isadmin;
-                req.session.login = true;
-                return response;
-            }
-        }else{
-            return res.render("login",{layout:"mainframe",user:req.session, err:"Incorrect login infomation provided"});
-        }
-        
-    })
-    .then(response =>{
-        usercarts.findOne({username:response.username}).lean().exec()
-        .then(cartres =>{
-            req.session.cart = cartres.cart;
-            if(req.session.isadmin){
-                return res.redirect("/manageclass");
+        return  res.render("login",{layout:"mainframe",user:req.session, err:"Password cannot be empty"})
+    }else{
+        users.findOne({username:usernameinput}).lean().exec()
+        .then(response =>{
+            console.log(`User: ${response}`);
+            if(response !== null){
+                if(passwordinput === response.password){
+                    req.session.userid = response._id;
+                    req.session.user = response.username;
+                    req.session.isadmin = response.isadmin;
+                    req.session.login = true;
+                    return response;
+                }
             }else{
-                return res.redirect("cart");
+                return res.render("login",{layout:"mainframe",user:req.session, err:"Incorrect login infomation provided"});
             }
-        }).catch(err =>{
+            
+        })
+        .then(response =>{
+            usercarts.findOne({username:response.username}).lean().exec()
+            .then(cartres =>{
+                req.session.cart = cartres.cart;
+                if(req.session.isadmin){
+                    return res.redirect("/manageclass");
+                }else{
+                    return res.redirect("cart");
+                }
+            }).catch(err =>{
+                return res.render("login",{layout:"mainframe", err:err ,user:req.session});
+            })
+        })
+        .catch(err =>{
             return res.render("login",{layout:"mainframe", err:err ,user:req.session});
         })
-    })
-    .catch(err =>{
-        return res.render("login",{layout:"mainframe", err:err ,user:req.session});
-    })
-
-    // res.render("index", {layout:"mainframe"});
-
+    }
 });
+
 app.get("/paymentconfirmation",(req,res)=>{
-    res.render("paymentconfirmation",{layout:"mainframe",order:req.session.orders, user:req.session})
+    if(req.session.login){
+        res.render("paymentconfirmation",{layout:"mainframe",order:req.session.orders, user:req.session});
+    }else{
+        return res.status(401).render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
+    }
 })
 
 app.post("/payment",(req,res) =>{
-    req.session.orders=[]
-    const neworder = new orders({username:req.session.user, amount:req.body.total, Tid:Math.random()+Date.now(), datetime:Date.now()})
-    neworder.save()
-    .then(response =>{
-        req.session.orders= response
-        res.status(200).redirect("/paymentconfirmation")
-    })
+    if(req.session.login){
+        const usernameinput = req.body.name;
+        const emailinput = req.body.email;
+        const cardnumberinput = req.body.creditcardnumber;
+        const creditcardexpiryinput = req.body.creditcardexpiry;
+        let errtext = [];
+        if(isempty(usernameinput)){
+            errtext.push(`Name cannot be empty`);
+        }
+        if(isempty(emailinput)){
+            errtext.push(`Email cannot be empty`);
+        }
+        if(isempty(cardnumberinput)){
+            errtext.push(`Cardnumber cannot be empty`);
+        }
+        if(isempty(creditcardexpiryinput)){
+            errtext.push(`Expiry Date cannot be empty`);
+        }
+        if(isNaN(cardnumberinput)){
+            errtext.push(`Cardnumber should be a number`);
+        }
+        if(isNaN(creditcardexpiryinput)){
+            errtext.push(`Expiry Date should be a number`);
+        }
+        if(errtext.length > 0){
+            return res.render("cart", {layout:"mainframe", user:req.session, err:errtext});
+        }
+        req.session.orders={};
+        const TransID = Math.random()+Date.now() * 10000;
+        const timestamp = Date.now();
+        const neworder = new orders({username:req.session.user, amount:req.body.total, Tid:TransID, datetime:timestamp})
+        neworder.save()
+        .then(response =>{
+            req.session.orders= response;
+            res.status(200).redirect("/paymentconfirmation");
+        })
+    }else{
+        return res.status(401).render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
+    }
 })
 
+//check empty helper
+const isempty = (input) =>{
+    if(input === "" || input.trim() === ""){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
 app.get("/logout", (req, res) =>{
-    req.session.destroy();
-    res.redirect("/");
+    if(req.session.login){
+        req.session.destroy();
+        res.redirect("/");
+    }else{
+        return res.status(401).render("redirect",{layout:"mainframe", action:{"unauthorized":"You have to login to view this page"}, user:req.session});
+    }
 })
 
 app.get("/deny", (req, res) =>{
@@ -386,4 +418,4 @@ app.use("/", (req,res) =>{
     res.status(404).render("404",{layout:"mainframe", user:req.session});
 })
 
-app.listen(HTTP_PORT, onServerStart)
+app.listen(HTTP_PORT, onServerStart);

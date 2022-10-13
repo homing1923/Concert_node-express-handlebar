@@ -1,5 +1,6 @@
 const lessonredirectbtn = document.getElementsByClassName("lessontoregisterbtn");
 const usercartitems = document.getElementsByClassName("cartitems");
+
 redirecttologin = () =>{
     window.location.href = "./login";
 }
@@ -26,13 +27,12 @@ const checkregistered = () =>{
     }
 }
 
-try {
-    for (each in lessonredirectbtn){
-        lessonredirectbtn[each].addEventListener("click", redirecttologin);
+if(lessonredirectbtn !== null || lessonredirectbtn !== undefined){
+    for (let i = 0; i < lessonredirectbtn.length; i++ ){
+        lessonredirectbtn[i].addEventListener("click", redirecttologin);
     }
-} catch (error) {
-    console.log(error);
 }
+
 window.addEventListener("load", checkregistered);
 
 

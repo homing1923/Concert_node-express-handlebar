@@ -1,6 +1,5 @@
 <script src="/js/cart.js" defer></script>
 
-
 <style>
     .cart-main{
         display: grid;
@@ -16,17 +15,25 @@
         display: inline-block;
     }
 </style>
+
 {{#if user.cart}}
 <form action="/payment" method="post">
-<h1>Checkout</h1>
+    <h1>Checkout</h1>
+        <p class="inputerrortext">
+            {{#if err}}
+                {{#each err}}
+                    {{this}}<br>
+                {{/each}}
+            {{/if}}
+    </p>
 <section class="cart-main">
 <div>
     <p>Customer details</p>
-    <input type="text" name="name" id="fname" placeholder="Enter your name ">
-    <input type="email" name="email" id="email" placeholder="Enter your email">
+    <input type="text" name="name" id="fname" placeholder="Enter your name " required>
+    <input type="email" name="email" id="email" placeholder="Enter your email" required>
     <p>WOULD YOU LIKE TO JOIN AS A MEMBER</p>
     <p> Members get unlimited classes, for a low monthly price.<p>
-        <input type="radio" class="radio" name="membership"  value="yes" id="yes"><label for="membership">Yes</label>
+        <input type="radio" class="radio" name="membership"  value="yes" id="yes" checked><label for="membership">Yes</label>
         <input type="radio" class="radio" name="membership"  value="no" id="no"><label for="membership">No</label>
         <select name="membershipPass" id="memberpassinput">
             <option value="monthly">Monthly pass</option>
@@ -34,8 +41,8 @@
         </select>
 
     <p> PAYMENT INFORMATION </p>
-    <input type="text" placeholder="Enter Credit card number">
-    <input type="text" placeholder="Enter expiry">
+    <input type="text" name="creditcardnumber" placeholder="Enter Credit card number" maxlength="16" required>
+    <input type="text" name="creditcardexpiry" placeholder="MMYY" maxlength="4" required>
     <button type="submit"> PAY</button>
     </form>
 
@@ -63,4 +70,10 @@
 
 <h1 class="tilteh1">There is nothing in cart</h1>
 
+<a href="/class"><button type="button" class="lessontoregisterbtn">Explore Classes</button></a>
+
+
 {{/if}}
+
+<input type="hidden" id="monthcost" value={{monthcost}}> </input>
+<input type="hidden" id="yearcost" value={{yearcost}}> </input>
