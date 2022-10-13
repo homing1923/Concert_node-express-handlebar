@@ -226,11 +226,11 @@ app.post("/addcart/:id", (req,res) =>{
     usercarts.updateOne({username:req.session.user},{cart:req.session.cart}).lean().exec()
     .then(response =>{
         console.log(response);
-        res.status(200).redirect("/cart");
+        return res.status(200).redirect("/cart");
     })
     .catch(err=>{
         console.log(err);
-        res.status(500).redirect("/");
+        return res.status(500).redirect("/");
     })
 })
 
@@ -251,20 +251,20 @@ app.post("/deletecartitem/:lessonid", (req,res) =>{
     usercarts.updateOne({username:req.session.username},{username:req.session.username,cart:req.session.cart}).lean().exec()
     .then(response =>{
         console.log(response);
-        res.status(200).redirect("/cart");
+        return res.status(200).redirect("/cart");
     })
     .catch(err =>{
         console.log(err);
-        res.status(500).redirect("/cart");
+        return res.status(500).redirect("/cart");
     })
 })
 app.get("/vieworder",(req,res)=>{
     orders.find({}).lean().exec()
     .then(response=>{
-        res.render("allorder",{layout:"mainframe",order:response})
+        return res.render("allorder",{layout:"mainframe",order:response, user:req.session})
     })
     .catch(err=>{
-        res.status(500).redirect("/vieworder");
+        return res.status(500).redirect("/vieworder");
     })
 
 })
@@ -332,37 +332,35 @@ app.post("/login", (req, res) => {
                 req.session.user = response.username;
                 req.session.isadmin = response.isadmin;
                 req.session.login = true;
+                return response;
             }
         }else{
-            const err = {err:"Incorrect login infomation provided"}
-            res.render("login",{layout:"mainframe",user:req.session, err:err});
+            return res.render("login",{layout:"mainframe",user:req.session, err:"Incorrect login infomation provided"});
         }
-        return response;
         
     })
-    .then(
-        usercarts.findOne({username:usernameinput}).lean().exec()
-        .then(response =>{
-            console.log(`User cart: ${response}`);
-            req.session.cart = response.cart;
+    .then(response =>{
+        usercarts.findOne({username:response.username}).lean().exec()
+        .then(cartres =>{
+            req.session.cart = cartres.cart;
             if(req.session.isadmin){
                 return res.redirect("/manageclass");
             }else{
                 return res.redirect("cart");
             }
         }).catch(err =>{
-            res.render("login",{layout:"mainframe", err:err ,user:req.session});
+            return res.render("login",{layout:"mainframe", err:err ,user:req.session});
         })
-    )
+    })
     .catch(err =>{
-        res.render("login",{layout:"mainframe", err:err ,user:req.session});
+        return res.render("login",{layout:"mainframe", err:err ,user:req.session});
     })
 
     // res.render("index", {layout:"mainframe"});
 
 });
 app.get("/paymentconfirmation",(req,res)=>{
-    res.render("paymentconfirmation",{layout:"mainframe",order:req.session.orders})
+    res.render("paymentconfirmation",{layout:"mainframe",order:req.session.orders, user:req.session})
 })
 
 app.post("/payment",(req,res) =>{
