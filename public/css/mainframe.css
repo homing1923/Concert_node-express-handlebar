@@ -142,3 +142,6 @@ footer{
     padding-top: 1%;
 }
 
+.ordercontainer div{
+    border: 2px solid black;
+}
