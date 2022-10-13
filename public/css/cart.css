@@ -1,0 +1,28 @@
+.cart-main{
+    display: grid;
+    grid-template-columns: 25vw 20vw 10vw;
+    padding-left: 5vw;
+    column-gap: 8vw;
+    border: 3px solid black;
+    padding-bottom: 8vh;
+    padding-top: 8vh;
+}
+.hidden{
+    display: none;
+}
+.unhidden{
+    display: inline-block;
+}
+p{
+    margin: 14px;
+}
+button{
+    width: 8vw;
+    height: 2vw;
+    border-radius: 20px;
+    margin: 12px;
+}
+.calculation p{
+    background-color: white;
+    color: black;
+}
