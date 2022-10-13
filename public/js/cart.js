@@ -3,7 +3,7 @@ const durations = document.getElementsByClassName("duration");
 const monthly = document.getElementById("monthcost").value;
 const yearly = document.getElementById("yearcost").value;
 
-//functions
+//yes no checker
 const membership = () =>{
     if (document.getElementById("no").checked === true){
         document.getElementById("memberpassinput").setAttribute("class","hidden");
@@ -13,6 +13,7 @@ const membership = () =>{
     }
 } 
 
+//
 const calculations = () =>{
     if(durations.length > 0){
         let subtotal = 0;
@@ -21,10 +22,9 @@ const calculations = () =>{
         let total = 0;
         if (document.getElementById("no").checked){
             for(i=0;i<durations.length;i++){
-                totalduration += parseInt(durations[i].value.slice(1,durations[i].value.length));
-                console.log(totalduration);
+                totalduration += parseInt(durations[i].value);
             }
-            subtotal = Math.round(totalduration*0.58*100,2)/100;
+            subtotal = totalduration*0.58;
         }
         else{
             if (document.getElementsByTagName("select")[0].value==="yearly"){
@@ -37,6 +37,7 @@ const calculations = () =>{
     
         tax = subtotal*0.13;
         total = subtotal + tax;
+
         document.getElementById("calculation").innerHTML = 
         (
             `<p class="calc-left"> Subtotal: </p><p class="calc-right">$${subtotal.toFixed(2)} </p>
