@@ -123,15 +123,6 @@ const checkall = () =>{
     }
 }
 
-// const checkforfetch = () =>{
-//     if(userok && passok && emailok){
-//         sumbitbutton.removeAttribute("disabled","");
-//         document.getElementsByClassName("inputerrortext")[0].innerHTML = "";
-//     }else{
-//         checkall();
-//     }
-// }
-
 const useroutevent = usernameiput.addEventListener("focusout", checkall);
 const passwordoutevent = signuppassword.addEventListener("focusout", checkall);
 const emailoutevent = emailinput.addEventListener("focusout", checkall)
