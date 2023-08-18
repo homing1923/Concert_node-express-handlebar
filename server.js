@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const { response } = require("express");
 const e = require("express");
-const HTTP_PORT = process.env.PORT || 3000;
+const HTTP_PORT = process.env.PORT || 3001;
 
 //Settings
 app.use(express.static('public'));
