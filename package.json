@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/homing1923/Project.git"
+    "url": "git+https://github.com/homing1923/Lesson_node-express-handlebar.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/homing1923/Project/issues"
+    "url": "https://github.com/homing1923/Lesson_node-express-handlebar/issues"
   },
-  "homepage": "https://github.com/homing1923/Project#readme",
+  "homepage": "https://github.com/homing1923/Lesson_node-express-handlebar#readme",
   "dependencies": {
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
